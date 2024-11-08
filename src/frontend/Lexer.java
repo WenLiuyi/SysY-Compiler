@@ -1219,7 +1219,19 @@ public class Lexer {
                     }
                 }*/
 
-                if(!lexType.equals(LexType.IDENFR)){
+                if(lexType.equals(LexType.INTTK)||lexType.equals(LexType.CHARTK)||lexType.equals(LexType.VOIDTK)
+                ||lexType.equals(LexType.IFTK)||lexType.equals(LexType.FORTK)
+                ||lexType.equals(LexType.BREAKTK)||lexType.equals(LexType.CONTINUETK)
+                ||lexType.equals(LexType.RETURNTK)||lexType.equals(LexType.PRINTFTK)){
+                    /*  i型错误：
+                        ConstDecl → 'const' BType ConstDef { ',' ConstDef } ';' // i
+                        VarDecl → BType VarDef { ',' VarDef } ';' // i
+                        Stmt →  'if' '(' Cond ')' Stmt [ 'else' Stmt ] // j
+                              | 'for' '(' [ForStmt] ';' [Cond] ';' [ForStmt] ')' Stmt
+                              | 'break' ';' | 'continue' ';' // i
+                              | 'return' [Exp] ';' // i
+                              | 'printf''('StringConst {','Exp}')'';' // i j
+                     */
                     Node node=(Node)this.grammar.curNode;
                     /*if(node instanceof ConstDecl constDecl){
                         constDecl.match(token,lexType);     // ConstDecl -> ConstDef
@@ -1271,6 +1283,7 @@ public class Lexer {
                         // Block -> Stmt -> 'break' ';'
                         Stmt stmt=new Stmt(this.grammar,this.lineNum);
                         block.next.add(stmt);stmt.pre=block;block.visited++;
+                        while(curPos<this.source.length() && Character.isWhitespace(this.source.charAt(curPos))) curPos++;
                         if(curPos>=this.source.length()) this.checkSemicolon=true;
                         else if(this.source.charAt(curPos)!=';'){
                             // 错误类型i：缺少';'
@@ -1283,6 +1296,7 @@ public class Lexer {
                     }else if(this.grammar.curNode instanceof Stmt stmt){
                         // 1. Block -> Stmt -> 'break' ';'
                         if(stmt.pre instanceof Block block){
+                            while(curPos<this.source.length() && Character.isWhitespace(this.source.charAt(curPos))) curPos++;
                             if(curPos>=this.source.length()) this.checkSemicolon=true;
                             else if(this.source.charAt(curPos)!=';'){
                                 // 错误类型i：缺少';'
@@ -1294,6 +1308,8 @@ public class Lexer {
                             stmt.return_to_outer();     // Stmt <- Block
                             continue;
                         }
+
+                        while(curPos<this.source.length() && Character.isWhitespace(this.source.charAt(curPos))) curPos++;
                         if(curPos>=this.source.length()) this.checkSemicolon=true;
                         else if(this.source.charAt(curPos)!=';'){
                             // 错误类型i：缺少';'
@@ -1330,14 +1346,21 @@ public class Lexer {
                         // 错误类型j：缺少')'
                         // Stmt -> LVal '=' 'getint''('')'';' | LVal '=' 'getchar''('')'';' //  j
                         errors.add(Integer.toString(lineNum)+" j");curPos++;
-                        //errors.add("hello");
                     }
 
                     // 在" LVal = "处已创建：Exp -> AddExp -> MulExp -> UnaryExp，此处回退
                     this.grammar.curNode=this.grammar.curNode.pre.pre.pre.pre;  // UnaryExp <- ... <- Stmt
-                    if(curPos>=this.source.length()) {
-                        checkSemicolon=true;
+
+                    while(curPos<this.source.length() && Character.isWhitespace(this.source.charAt(curPos))) curPos++;
+                    if(curPos>=this.source.length()) checkSemicolon=true;
+                    else if(this.source.charAt(curPos)!=';'){
+                        // 错误类型i：缺少';'
+                        errors.add(Integer.toString(lineNum)+" i");   //i
+                    }else{
+                        // 继续读取break/continue后的';'
+                        continue;
                     }
+                    this.grammar.curNode.return_to_outer();     // Stmt <- Block
                     continue;
                 }else if(lexType.equals(LexType.RETURNTK)){
                     // Stmt ->  'return' [Exp] ';'

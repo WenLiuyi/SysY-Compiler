@@ -118,6 +118,7 @@ public class Semantics {
                  */
                 int original_no=this.current_no;          //cur_no是当前层符号表编号
                 boolean found=findIdentifier(token);
+                //grammar.lexer.errors.add(token);
                 if(!found) return 'c';     //使用了未定义的标识符     //c
 
                 //若该标识符为数组
