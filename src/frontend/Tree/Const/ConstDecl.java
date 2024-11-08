@@ -13,7 +13,7 @@ public class ConstDecl extends Decl {
         super(grammar,lineno);
     }
     public void match(String token, LexType lexType) {
-        if(this.isBType(token)) return;
+        //if(this.isBType(token)) return;
         ConstDef def=new ConstDef(grammar,lineno,lexType);
         this.next.add(def);def.pre=this;this.visited++;
         this.grammar.curNode=def;           //添加ConstDef

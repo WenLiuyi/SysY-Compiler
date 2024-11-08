@@ -4,7 +4,21 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6c5911cd-3130-4587-9a00-faeb57544371" name="Changes" comment="" />
+    <list default="true" id="6c5911cd-3130-4587-9a00-faeb57544371" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/error.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Grammatical_Analysis/Compiler.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Grammatical_Analysis/Compiler.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Grammatical_Analysis/frontend.zip" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Grammatical_Analysis/frontend.zip" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Grammatical_Analysis/frontend/Lexer.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Grammatical_Analysis/frontend/Lexer.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Grammatical_Analysis/frontend/Tree/CompUnit.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Grammatical_Analysis/frontend/Tree/CompUnit.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Grammatical_Analysis/frontend/Tree/Stmt/Stmt.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Grammatical_Analysis/frontend/Tree/Stmt/Stmt.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Compiler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Compiler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend.zip" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend.zip" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/Lexer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/Lexer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/Tree/CompUnit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/Tree/CompUnit.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/Tree/Stmt/Stmt.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/Tree/Stmt/Stmt.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/testfile.txt" beforeDir="false" afterPath="$PROJECT_DIR$/testfile.txt" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -34,9 +48,9 @@
   "keyToString": {
     "Application.Compiler.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "master",
+    "git-widget-placeholder": "main",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/Public/Documents/Grammatical_Analysis",
+    "last_opened_file_path": "C:/Users/16584/Documents/分布式",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -83,12 +97,24 @@
       <workItem from="1728898628687" duration="268889000" />
       <workItem from="1730432020736" duration="1212000" />
       <workItem from="1730433257549" duration="1018000" />
-      <workItem from="1730789470367" duration="57076000" />
+      <workItem from="1730789470367" duration="57208000" />
+      <workItem from="1730972609112" duration="15163000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

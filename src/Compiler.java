@@ -54,6 +54,7 @@ public class Compiler {
             }
 
             // i型错误：
+            //lexer.errors.add(Integer.toString(lexer.lineNum) +":"+lexer.grammar.curNode.toString());
             if ((!(lexer.grammar.curNode instanceof CompUnit) && !(lexer.grammar.curNode instanceof Block)
                     && !(lexer.grammar.curNode instanceof Stmt) && !(lexer.grammar.curNode instanceof FuncDef)
                     && !(lexer.grammar.curNode instanceof MainFuncDef)) || lexer.checkSemicolon) {
@@ -99,8 +100,23 @@ public class Compiler {
             }
             // g型错误
             //lexer.errors.add(Integer.toString(lexer.lineNum)+" "+lexer.checkReturn);
-            if (lexer.checkReturn) {  //
-                String cur_line;boolean found_return=false;
+            if (lexer.checkReturn) {  // 回到CompUnit
+                // 1. CompUnit -> MainFuncDef -> 'int' 'main' '(' ')' Block
+                // 2. CompUnit -> FuncDef -> FuncType Ident '(' [FuncFParams] ')' Block
+                // Block -> '{' { BlockItem } '}' ; BlockItem -> Stmt
+                Node func=(Node)lexer.grammar.curNode.next.get(lexer.grammar.curNode.visited);
+                Node block=(Node)func.next.get(func.visited);
+                //例子：void f2() {}
+                if(block.visited<0) lexer.errors.add(Integer.toString(lexer.lineNum) + " g");  //g
+                else{
+                    Node last=(Node)block.next.get(block.visited);
+                    if(last instanceof Stmt stmt && stmt.isReturn){
+                    }else{
+                        lexer.errors.add(Integer.toString(lexer.lineNum) + " g");  //g
+                    }
+                }
+                lexer.checkReturn=false;
+                /*String cur_line;boolean found_return=false;
                 for (int lineNum = i-1; lineNum >= 0; lineNum--) {
                     cur_line = lines.get(lineNum);
                     int curPos_test = 0, len = cur_line.length();
@@ -118,8 +134,7 @@ public class Compiler {
                     }
                     if (!token.equals("return")) lexer.errors.add(Integer.toString(lexer.lineNum) + " g");  //g
                     break;
-                }
-                lexer.checkReturn=false;
+                }*/
             }
         }
         if(!lexer.errors.isEmpty()){

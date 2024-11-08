@@ -17,6 +17,7 @@ public class Stmt extends Node {
     public boolean with_last_forStmt;
     public int isFor_visited;       // 该Stmt为ForStmt时，访问至第几个';'
     public boolean end_LVal;   // 对于break/continue/getint/getchar, LVal遇到'='退出后，不再创建新的Exp
+    public boolean isReturn;    // 该Stmt为：'return' [Exp] ';'
     public Stmt(Grammar grammar,int lineno){
         super(grammar,lineno);
 
@@ -31,6 +32,7 @@ public class Stmt extends Node {
         this.with_last_forStmt = false;
         this.isFor_visited=0;
         this.end_LVal = false;
+        this.isReturn = false;
     }
     public void match(String token,LexType lexType){
         //this.grammar.lexer.statements.add(token+" "+lexType);
@@ -53,7 +55,7 @@ public class Stmt extends Node {
         else if(lexType.equals(LexType.GETINTTK) || lexType.equals(LexType.GETCHARTK)){
             //this.end_Semicolon=true;
         }else if(lexType.equals(LexType.RETURNTK)){
-
+            this.isReturn=true;
         }else if(lexType.equals(LexType.PRINTFTK)){
             //  'printf''('StringConst {','Exp}')'';'
             this.isPrintf=true;

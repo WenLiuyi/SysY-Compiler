@@ -834,7 +834,7 @@ public class Lexer {
                         // 主函数定义 MainFuncDef → 'int' 'main' '(' ')' Block
                         // 函数定义 FuncDef → FuncType Ident '(' [FuncFParams] ')' Block
                         Block block=new Block(this.grammar,this.lineNum);
-                        this.grammar.curNode.next.add(block);block.pre=this.grammar.curNode;
+                        this.grammar.curNode.next.add(block);block.pre=this.grammar.curNode;this.grammar.curNode.visited++;
                         this.grammar.curNode=block;
                     }
                     else if(this.grammar.curNode instanceof ConstInitVal constInitVal){
@@ -968,7 +968,7 @@ public class Lexer {
                 int flag=0;
                 if(this.grammar.curNode instanceof Block block){
                     Stmt stmt=new Stmt(this.grammar,this.lineNum);
-                    block.next.add(stmt);stmt.pre=block;stmt.visited++;
+                    block.next.add(stmt);stmt.pre=block;block.visited++;
                     this.grammar.curNode=stmt;
                     statements.add("SEMICN ;");System.out.println("SEMICN ;");
                     stmt.return_to_outer();         // Stmt <- Block
@@ -1219,6 +1219,21 @@ public class Lexer {
                     }
                 }*/
 
+                if(!lexType.equals(LexType.IDENFR)){
+                    Node node=(Node)this.grammar.curNode;
+                    /*if(node instanceof ConstDecl constDecl){
+                        constDecl.match(token,lexType);     // ConstDecl -> ConstDef
+                    }else if(node instanceof VarDecl varDecl){
+                        varDecl.match(token,lexType);       // VarDecl -> VarDef
+                    }else*/ if(node instanceof ConstDef || node instanceof VarDef || node instanceof MulExp){
+                        errors.add(Integer.toString(lineNum)+" i");
+                        int tokenLength=token.length();
+                        this.source=this.source.substring(0,curPos-tokenLength)+";"+this.source.substring(curPos-tokenLength);
+                        curPos-=tokenLength;len++;
+                        continue;
+                    }
+                }
+
                 if(lexType.equals(LexType.ELSETK)){
                     // Stmt -> 'if' (' Cond ')' Stmt [ 'else' Stmt ]
                     // if的Stmt结束后，退回到了外层的Stmt再往上一层。
@@ -1327,17 +1342,16 @@ public class Lexer {
                 }else if(lexType.equals(LexType.RETURNTK)){
                     // Stmt ->  'return' [Exp] ';'
                     this.grammar.curNode.match(token,lexType);
-
-                    if(!(grammar.curNode instanceof Block) && !(grammar.curNode instanceof Stmt)){
+                    /*if(!(grammar.curNode instanceof Block) && !(grammar.curNode instanceof Stmt)){
                         this.source=this.source.substring(0,curPos-6)+';'+this.source.substring(curPos-6);
                         len++;curPos-=6;
                         errors.add(Integer.toString(lineNum)+" i");
-                    }
+                    }*/
 
                     while(curPos<this.source.length() && Character.isWhitespace(this.source.charAt(curPos))) curPos++;
                     if(curPos<this.source.length() && this.source.charAt(curPos)!=';' && this.source.charAt(curPos)!='/'){
                         // 1. 有Exp
-                        Stmt stmt=(Stmt)this.grammar.curNode;
+                        Stmt stmt=(Stmt)this.grammar.curNode;System.out.println("hello:"+stmt.isReturn);
                         stmt.create_Exp(this.grammar,this.lineNum);
 
                         // 'f'型错误：无返回值的函数存在不匹配的return语句
@@ -1402,8 +1416,9 @@ public class Lexer {
                     statements.add(str);
                     continue;
                 }
+
                 if(lexType.equals(LexType.IDENFR) && this.grammar.curNode instanceof CompUnit compUnit
-                        && this.source.charAt(curPos)=='('){
+                        && curPos<len && this.source.charAt(curPos)=='('){
                     // CompUnit -> FuncDef -> FuncType Ident '(' [FuncFParams] ')' Block
                     statements.add("<FuncType>");
                     String str=lexType.toString()+" "+token;
@@ -1431,15 +1446,15 @@ public class Lexer {
                 statements.add(str);
 
                 if(lexType.equals(LexType.IDENFR) && this.grammar.curNode instanceof CompUnit compUnit){
-                    if(this.source.charAt(curPos)!='('){
-                        // 编译单元 CompUnit -> Decl -> VarDecl -> VarDef
+                    if(curPos>=len || this.source.charAt(curPos)!='('){
+                        // 编译单元 CompUnit -> Decl -> VarDecl
                         Decl d=new Decl(this.grammar,this.lineNum,true);
                         compUnit.next.add(d);d.pre=compUnit;compUnit.visited++;
                         VarDecl varDecl=new VarDecl(this.grammar,this.lineNum);
                         d.next.add(varDecl);varDecl.pre=d;d.visited++;
-                        VarDef varDef=new VarDef(this.grammar,this.lineNum);
-                        varDecl.next.add(varDef);varDef.pre=varDecl;varDecl.visited++;
-                        this.grammar.curNode=varDef;
+                        //VarDef varDef=new VarDef(this.grammar,this.lineNum);
+                        //varDecl.next.add(varDef);varDef.pre=varDecl;varDecl.visited++;
+                        this.grammar.curNode=varDecl;
                     }
                 }
                 else if(lexType.equals(LexType.IDENFR) &&
@@ -1502,16 +1517,13 @@ public class Lexer {
                             // 2. UnaryExp -> Ident '(' ')', 实参列表不存在
                         }
                     }
-                }
-                else{
+                }else{
                     this.grammar.curNode.match(token,lexType);
                 }
                 if(lexType.equals(LexType.IDENFR)){
                     char error=this.semantics.processToken(token, lexType,this.lineNum);
                     if(error!='z') errors.add(Integer.toString(lineNum)+" "+Character.toString(error));
                 }
-                //if(error=='z') statements.add(str);
-                //else return error;
             } else if (Character.isDigit(c)) {   // 无符号整数
                 token="";token += c;
                 curPos++;
@@ -1682,6 +1694,9 @@ public class Lexer {
         }
     }
     public boolean checkFuncRParamsParentheses(){
+        /* 错误类型j：缺少')'
+            UnaryExp -> Ident '(' [FuncRParams] ')'
+         */
         int curPos_test=curPos,found=0;char c;
         while(curPos_test<this.source.length()){
             c=this.source.charAt(curPos_test);

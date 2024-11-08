@@ -21,7 +21,7 @@ public class CompUnit extends Node{
         if(lexType.equals(LexType.INTCON)||lexType.equals(LexType.CHRCON)) return;
         else if(token.equals("main")) {                  //主函数定义：MainFuncDef
             MainFuncDef f=new MainFuncDef(grammar,lineno);
-            this.next.add(f);f.pre=this;
+            this.next.add(f);f.pre=this;this.visited++;
             this.grammar.curNode=f;
         }
         /*else if(token.equals("void")) {                  //void函数定义：FuncDef
@@ -31,7 +31,7 @@ public class CompUnit extends Node{
         }*/
         else if(token.equals("const")) {           //常量声明：Decl-> ConstDecl
             Decl d=new Decl(grammar,lineno,true);
-            this.next.add(d);d.pre=this;
+            this.next.add(d);d.pre=this;this.visited++;
             this.grammar.curNode=d;
             d.match(token,lexType);
         }

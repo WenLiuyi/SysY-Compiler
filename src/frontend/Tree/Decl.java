@@ -24,10 +24,11 @@ public class Decl extends Node{     //ConstDecl,VarDecl的父类
     }
     public void match(String token,LexType lexType) {
         if(this.isConstDecl) {
+            // Decl -> ConstDecl
             ConstDecl d=new ConstDecl(grammar,lineno);
             this.next.add(d);d.pre=this;
             this.grammar.curNode=d;
-            d.match(token,lexType);
+            //d.match(token,lexType);
         }else{
             VarDecl d=new VarDecl(grammar,lineno);
             this.next.add(d);d.pre=this;
