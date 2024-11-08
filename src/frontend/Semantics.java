@@ -1,6 +1,12 @@
 package frontend;
 
 import java.util.ArrayList;
+import frontend.Tree.*;
+import frontend.Tree.Const.ConstDecl;
+import frontend.Tree.Var.VarDecl;
+import frontend.Tree.Const.*;
+import frontend.Tree.Var.*;
+import frontend.Tree.Func.*;
 
 public class Semantics {
     public boolean defineInt;      //上一个字符串为int，表示：正在进行int标识符定义
@@ -92,7 +98,10 @@ public class Semantics {
             return 'z';
             // 例： for(; s[i] != '\0'; i = i + 1) ; 不创建新作用域
         }else if(lexType.equals(LexType.IDENFR)){       //标识符
-            if((this.defineChar || this.defineInt || this.defineVoidFun)&&this.referFunction==0&&!this.isAssign){      //声明部分:查本层符号表
+            Node node=(Node)this.grammar.curNode;
+            if(node instanceof ConstDef || node instanceof VarDef || node instanceof FuncDef || node instanceof FuncFParam)
+            {      //声明部分:查本层符号表
+                System.out.println("declare:"+token);
                 boolean exists;     //查本层符号表，有无同名
                 LexType idenfr_LexType;
                 if(this.defineInt && this.defineConst){     //该符号声明对应int型常量（/数组）
@@ -118,8 +127,7 @@ public class Semantics {
                  */
                 int original_no=this.current_no;          //cur_no是当前层符号表编号
                 boolean found=findIdentifier(token);
-                //grammar.lexer.errors.add(token);
-                if(!found) return 'c';     //使用了未定义的标识符     //c
+                if(!found) return 'c';              //使用了未定义的标识符     //c
 
                 //若该标识符为数组
                 /*if(this.last_symTab.type==LexType.INT_VAR_ARRAY_IDENFR || this.last_symTab.type==LexType.CHAR_VAR_ARRAY_IDENFR
@@ -340,7 +348,7 @@ public class Semantics {
             //System.out.print("Invalid assignment for arrays of characters.");
         }
         //char型数组声明
-        symTab.storeStringValue(token);
+        //symTab.storeStringValue(token);
         return 'z';
     }
     public char storeChar(char c){

@@ -54,7 +54,6 @@ public class Compiler {
             }
 
             // i型错误：
-            //lexer.errors.add(Integer.toString(lexer.lineNum) +":"+lexer.grammar.curNode.toString());
             if ((!(lexer.grammar.curNode instanceof CompUnit) && !(lexer.grammar.curNode instanceof Block)
                     && !(lexer.grammar.curNode instanceof Stmt) && !(lexer.grammar.curNode instanceof FuncDef)
                     && !(lexer.grammar.curNode instanceof MainFuncDef)) || lexer.checkSemicolon) {
