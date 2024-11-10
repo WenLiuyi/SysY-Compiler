@@ -11,7 +11,7 @@ public class Decl extends Node{     //ConstDecl,VarDecl的父类
     LexType lexType;        //数据类型：int或char
     boolean isConstDecl;
     public Decl(){}
-    public Decl(Grammar grammar,int lineno) {
+    public Decl(Grammar grammar,int lineno,int scope_no) {
         this.grammar = grammar;
         this.lineno = lineno;
         this.next= new ArrayList<Node>();

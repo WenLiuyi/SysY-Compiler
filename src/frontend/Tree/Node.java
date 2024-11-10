@@ -11,6 +11,7 @@ public abstract class Node {         //语法树节点
     public Grammar grammar;
     public int visited;     //当前访问的非终结符序号
 
+
     public Node(){}
     public abstract void match(String token,LexType lexType);
     public Node(Grammar grammar,int lineno) {
