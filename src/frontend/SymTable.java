@@ -1,5 +1,6 @@
 package frontend;
 import java.util.ArrayList;
+import llvm.IR.Value.*;
 
 public class SymTable {
     public String function_name;    //函数名
@@ -35,7 +36,7 @@ public class SymTable {
          */
         public LexType type;       //符号类型：IDENFR, INTCON, STRCON, CHRCON
         public int level;
-        public Object value;        //值
+        public Object curvalue;        //值
         public ArrayList<SymTab> parameters;        //函数的参数符号项列表
         public int arrayLength;         //数组长度
         public ArrayList<Object> arrayValues;       //数组元素值
@@ -46,6 +47,9 @@ public class SymTable {
         public IndexTable.IndexTab functionIndexTab;   //当前SymTab是函数符号时，其参数符号表关联到的索引项
         public boolean redefined;   // 若该函数的标识符出现'b'类错误，则忽略重复定义中的形参情况
 
+        public Value value;     //  llvm.IR.Value 类
+        public boolean isFuncParam;     // 函数中的形参，如果是数组，传入指向数组的指针，使用时需先load
+
         public SymTab(String name, LexType type,int level){
             this.name=name;
             this.type=type;
@@ -55,6 +59,7 @@ public class SymTable {
             this.isConst=false;
             this.declaredIndex=-1;
             this.redefined=false;
+            this.isFuncParam=false;
         }
         public void initializeArray(int number,boolean defineInt){
             this.arrayLength=number;
@@ -74,7 +79,7 @@ public class SymTable {
             return this.name;
         }
         public void storeValue(Object value){
-            this.value=value;
+            this.curvalue=value;
             //
         }
         public void storeArrayElementValue(Object value,int i){

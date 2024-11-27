@@ -1,7 +1,8 @@
-1 func1 CharFunc
-1 func2 IntFunc
-1 func3 IntFunc
-2 b CharArray
-3 c Char
-4 a Int
-5 b CharArray
+1 a Int
+1 arr IntArray
+1 f IntFunc
+2 x Int
+3 a Int
+3 b Int
+3 c Int
+3 d Int

@@ -11,22 +11,22 @@ import java.util.Map;
 import frontend.Tree.Exp.*;
 
 public class Block extends Node {
-    public Block(Grammar grammar,int lineno) {
-        super(grammar,lineno);
+    public Block(Grammar grammar,int lineno,int scope_no) {
+        super(grammar,lineno,scope_no);
     }
     public void match(String token,LexType lexType){
         if(this.isBType(token)){                   //变量声明：Decl->VarDecl
-            Decl d=new Decl(grammar,lineno,false);
+            Decl d=new Decl(grammar,lineno,scope_no,false);
             this.next.add(d);d.pre=this;this.visited++;
             this.grammar.curNode=d;
             d.match(token,lexType);
         }else if(token.equals("const")){                 //常量声明：Decl->ConstDecl
-            Decl d=new Decl(grammar,lineno,true);
+            Decl d=new Decl(grammar,lineno,scope_no,true);
             this.next.add(d);d.pre=this;this.visited++;
             this.grammar.curNode=d;
             d.match(token,lexType);
         }else{                                          //语句：Stmt
-            Stmt s=new Stmt(grammar,lineno);
+            Stmt s=new Stmt(grammar,lineno,scope_no);
             this.next.add(s);s.pre=this;this.visited++;
             this.grammar.curNode=s;
             s.match(token,lexType);

@@ -31,7 +31,6 @@ public class Analyzer {
         this.lexer = new Lexer();
         lexer.initialize();
 
-        //writer.write("parser.txt",lexer.statements);
         int flag = 0;
         for (int i = 0; i < lines.size(); i++) {        //逐行词法分析
             System.out.println(i + 1);

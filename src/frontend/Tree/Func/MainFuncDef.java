@@ -8,8 +8,8 @@ import frontend.Tree.Exp.*;
 import java.util.ArrayList;
 
 public class MainFuncDef extends Node {
-    public MainFuncDef(Grammar grammar, int lineno) {
-        super(grammar, lineno);
+    public MainFuncDef(Grammar grammar, int lineno,int scope_no) {
+        super(grammar, lineno,scope_no);
     }
     public void match(String token, LexType lexType) {
     }

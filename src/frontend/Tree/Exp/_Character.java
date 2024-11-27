@@ -4,10 +4,9 @@ import frontend.*;
 import frontend.Tree.*;
 
 public class _Character extends Node{
-    char ch;
-    public _Character(Grammar grammar,int lineno,char ch){
-        this.grammar = grammar;
-        this.lineno = lineno;
+    public char ch;
+    public _Character(Grammar grammar,int lineno,int scope_no,char ch){
+        super(grammar,lineno,scope_no);
         this.ch=ch;
     }
     public void match(String token,LexType lexType){

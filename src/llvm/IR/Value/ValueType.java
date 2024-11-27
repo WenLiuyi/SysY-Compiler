@@ -8,6 +8,8 @@ public enum ValueType {
     // Value -> Constant
     ConstantTy, //常量标识符
     ConstantDataTy, //字面量
+    VariableTy,
+    VariableDataTy,
 
     // Value -> Constant -> GlobalValue
     FunctionTy,

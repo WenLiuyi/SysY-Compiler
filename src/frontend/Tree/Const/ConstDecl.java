@@ -9,12 +9,13 @@ import java.util.ArrayList;
 
 //常量声明 ConstDecl → 'const' BType ConstDef { ',' ConstDef } ';'
 public class ConstDecl extends Decl {
-    public ConstDecl(Grammar grammar,int lineno){
-        super(grammar,lineno);
+    public ConstDecl(Grammar grammar,int lineno,int scope_no){
+        super(grammar, lineno,scope_no);
+        this.visited=-1;
     }
     public void match(String token, LexType lexType) {
         //if(this.isBType(token)) return;
-        ConstDef def=new ConstDef(grammar,lineno,lexType);
+        ConstDef def=new ConstDef(grammar,lineno,scope_no,lexType);
         this.next.add(def);def.pre=this;this.visited++;
         this.grammar.curNode=def;           //添加ConstDef
     }

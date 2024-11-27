@@ -18,8 +18,14 @@ public class Stmt extends Node {
     public int isFor_visited;       // 该Stmt为ForStmt时，访问至第几个';'
     public boolean end_LVal;   // 对于break/continue/getint/getchar, LVal遇到'='退出后，不再创建新的Exp
     public boolean isReturn;    // 该Stmt为：'return' [Exp] ';'
-    public Stmt(Grammar grammar,int lineno){
-        super(grammar,lineno);
+
+    public boolean isBreak;
+    public boolean isContinue;
+    public boolean isGetint;
+    public boolean isGetchar;
+
+    public Stmt(Grammar grammar,int lineno,int scope_no){
+        super(grammar,lineno,scope_no);
 
         this.isIf=false;
         this.isElse=false;
@@ -33,19 +39,24 @@ public class Stmt extends Node {
         this.isFor_visited=0;
         this.end_LVal = false;
         this.isReturn = false;
+
+        this.isBreak = false;
+        this.isContinue = false;
+        this.isGetint = false;
+        this.isGetchar = false;
     }
     public void match(String token,LexType lexType){
         //this.grammar.lexer.statements.add(token+" "+lexType);
         if(lexType.equals(LexType.IFTK)){
             //  1. Stmt -> 'if' (' Cond ')' Stmt [ 'else' Stmt ]
-            Cond cond=new Cond(this.grammar,this.lineno);   //Stmt -> Cond
+            Cond cond=new Cond(this.grammar,this.lineno,this.scope_no);   //Stmt -> Cond
             this.isIf=true;
             this.next.add(cond);cond.pre=this;this.visited++;
             this.grammar.curNode=cond;
             this.grammar.lexer.inCond=true;
 
         }else if(lexType.equals(LexType.ELSETK)){
-            Stmt stmt_else=new Stmt(this.grammar,this.lineno);  // 'else' Stmt
+            Stmt stmt_else=new Stmt(this.grammar,this.lineno,this.scope_no);  // 'else' Stmt
             this.next.add(stmt_else);stmt_else.pre=this;this.visited++;
             this.grammar.curNode=stmt_else;
             stmt_else.isElse=true;
@@ -62,7 +73,7 @@ public class Stmt extends Node {
         }
         else if(this.isIdent(lexType)){
             // 2. Stmt->LVal '=' Exp ';'
-            LVal lval=new LVal(this.grammar,this.lineno);   //左值表达式
+            LVal lval=new LVal(this.grammar,this.lineno,this.scope_no);   //左值表达式
             this.next.add(lval);lval.pre=this;this.visited++;
             this.grammar.curNode=lval;
         }else if(lexType.equals(LexType.FORTK)){
@@ -73,12 +84,12 @@ public class Stmt extends Node {
             // Stmt->Exp->...-> PrimaryExp->Number/Character
         }
     }
-    public void create_Exp(Grammar grammar,int lineno){
-        Exp exp=new Exp(grammar,lineno);
+    public void create_Exp(Grammar grammar,int lineno,int scope_no){
+        Exp exp=new Exp(grammar,lineno,scope_no);
         this.next.add(exp);exp.pre=this;this.visited++;
         this.grammar.curNode=exp;
         //this.grammar.lexer.statements.add("create Exp");
-        exp.create_AddExp(grammar,lineno);
+        exp.create_AddExp(grammar,lineno,scope_no);
     }
     @Override
     public void return_to_upper(){

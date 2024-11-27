@@ -6,17 +6,17 @@ import frontend.Tree.Exp.AddExp;
 import frontend.Tree.Node;
 
 public class ConstExp extends Node {
-    public ConstExp(Grammar grammar, int lineno) {
-        super(grammar, lineno);
+    public ConstExp(Grammar grammar, int lineno,int scope_no) {
+        super(grammar, lineno,scope_no);
     }
     public void match(String token, LexType lexType){
 
     }
-    public void create_AddExp(Grammar grammar,int lineno){
-        AddExp addExp = new AddExp(this.grammar,this.lineno);
-        this.next.add(addExp);addExp.pre=this;
+    public void create_AddExp(Grammar grammar,int lineno,int scope_no){
+        AddExp addExp = new AddExp(this.grammar,this.lineno,this.scope_no);
+        this.next.add(addExp);addExp.pre=this;this.visited++;
         this.grammar.curNode=addExp;
-        addExp.create_MulExp(grammar,lineno);   // 加减表达式 AddExp → MulExp | AddExp ('+' | '−') MulExp
+        addExp.create_MulExp(grammar,lineno,scope_no);   // 加减表达式 AddExp → MulExp | AddExp ('+' | '−') MulExp
     }
     @Override
     public void return_to_upper(){

@@ -10,7 +10,7 @@ public class WriteFile {
 
     public WriteFile(){}
     public void write(String filePath,List<String> lines){
-        try(BufferedWriter writer= new BufferedWriter(new FileWriter(filePath,true))){
+        try(BufferedWriter writer= new BufferedWriter(new FileWriter(filePath,false))){
             int len=lines.size();
             for(int i=0;i<len;i++){
                 String line=lines.get(i);

@@ -11,8 +11,8 @@ public class CompUnit extends Node{
     public boolean isFuncDef;
     public boolean isMainFuncDef;
 
-    public CompUnit(Grammar grammar,int lineno){
-        super(grammar,lineno);
+    public CompUnit(Grammar grammar,int lineno,int scope_no){
+        super(grammar,lineno,scope_no);
         this.pre=null;
         this.isDecl=true;this.isFuncDef=true;this.isMainFuncDef=true;
         //this.curTokenNum=0;
@@ -20,7 +20,7 @@ public class CompUnit extends Node{
     public void match(String token,LexType lexType){
         if(lexType.equals(LexType.INTCON)||lexType.equals(LexType.CHRCON)) return;
         else if(token.equals("main")) {                  //主函数定义：MainFuncDef
-            MainFuncDef f=new MainFuncDef(grammar,lineno);
+            MainFuncDef f=new MainFuncDef(grammar,lineno,scope_no);
             this.next.add(f);f.pre=this;this.visited++;
             this.grammar.curNode=f;
         }
@@ -30,15 +30,15 @@ public class CompUnit extends Node{
             this.grammar.curNode=f;
         }*/
         else if(token.equals("const")) {           //常量声明：Decl-> ConstDecl
-            Decl d=new Decl(grammar,lineno,true);
+            Decl d=new Decl(grammar,lineno,scope_no,true);
             this.next.add(d);d.pre=this;this.visited++;
             this.grammar.curNode=d;
             d.match(token,lexType);
         }
 
     }
-    public void match_FuncDef(Grammar grammar,int lineno){      //函数定义：FuncDef
-        FuncDef f=new FuncDef(grammar,lineno);
+    public void match_FuncDef(Grammar grammar,int lineno,int scope_no){      //函数定义：FuncDef
+        FuncDef f=new FuncDef(grammar,lineno,scope_no);
         this.next.add(f);f.pre=this;this.visited++;
         this.grammar.curNode=f;
     }

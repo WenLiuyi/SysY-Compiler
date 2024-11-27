@@ -20,6 +20,6 @@ public class Compiler {
         Analyzer analyzer=new Analyzer("testfile.txt");
         analyzer.analyze();
         Generator generator=new Generator(analyzer);
-        System.out.println(generator.treeHead);
+        generator.generate();
     }
 }

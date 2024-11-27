@@ -33,7 +33,7 @@ public class Grammar {
         this.braces_Stack = new Stack<>();
         this.function_parentheses_Stack=new Stack<>();
 
-        this.TreeHead=new CompUnit(this,1);
+        this.TreeHead=new CompUnit(this,1,0);
         this.curNode=this.TreeHead;
     }
     public boolean process_Function_Parentheses(char c,int curPos){

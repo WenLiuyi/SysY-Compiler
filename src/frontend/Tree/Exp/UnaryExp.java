@@ -3,6 +3,7 @@ package frontend.Tree.Exp;
 import frontend.Grammar;
 import frontend.LexType;
 import frontend.Tree.Node;
+import llvm.IR.Value.Inst.BinaryOpType;
 
 import java.util.ArrayList;
 
@@ -15,11 +16,15 @@ public class UnaryExp extends Node {
          */
     public boolean containsFuncRParams;         // UnaryExp -> Ident '(' [FuncRParams] ')'：FuncRParams中的实参个数
     public boolean isFuncRParams;           // 是FuncRParams通过create_Exp创造的，作为实参
-    public UnaryExp(Grammar grammar, int lineno){
-        super(grammar, lineno);
+    public BinaryOpType opType;
+
+    public UnaryExp(Grammar grammar, int lineno,int scope_no){
+        super(grammar, lineno,scope_no);
         this.withIdent=false;
         this.containsFuncRParams=false;
         this.isFuncRParams=false;
+
+        this.opType=BinaryOpType.mul;
     }
     public void match(String token,LexType lexType){
         // Ident有两种情况：
@@ -28,29 +33,29 @@ public class UnaryExp extends Node {
         if(this.isIdent(lexType)) {this.withIdent=true;return;}
         if(lexType.equals(LexType.INTCON) || lexType.equals(LexType.CHRCON)){
             // UnaryExp -> PrimaryExp -> Number / Character
-            PrimaryExp primaryExp=new PrimaryExp(grammar,lineno);
+            PrimaryExp primaryExp=new PrimaryExp(grammar,lineno,scope_no);
             this.next.add(primaryExp);primaryExp.pre=this;this.visited++;
             this.grammar.curNode=primaryExp;
             primaryExp.match(token,lexType);
         }
     }
     //1. UnaryExp -> PrimaryExp → '(' Exp ')'
-    public void PrimaryExp_in_parentheses(Grammar grammar,int lineno){
-        PrimaryExp primaryExp=new PrimaryExp(grammar,lineno);
+    public void PrimaryExp_in_parentheses(Grammar grammar,int lineno,int scope_no){
+        PrimaryExp primaryExp=new PrimaryExp(grammar,lineno,scope_no);
         this.next.add(primaryExp);primaryExp.pre=this;this.visited++;
         primaryExp.exp_inParentheses=true;
         this.grammar.curNode=primaryExp;
-        primaryExp.create_Exp(grammar,lineno);
+        primaryExp.create_Exp(grammar,lineno,scope_no);
     }
-    public void PrimaryExp_as_LVal(Grammar grammar,int lineno){
-        PrimaryExp primaryExp=new PrimaryExp(grammar,lineno);
+    public void PrimaryExp_as_LVal(Grammar grammar,int lineno,int scope_no){
+        PrimaryExp primaryExp=new PrimaryExp(grammar,lineno,scope_no);
         this.next.add(primaryExp);primaryExp.pre=this;this.visited++;
         this.grammar.curNode=primaryExp;
-        primaryExp.create_LVal(grammar,lineno);
+        primaryExp.create_LVal(grammar,lineno,scope_no);
     }
-    public void create_UnaryExp(Grammar grammar,int lineno){
+    public void create_UnaryExp(Grammar grammar,int lineno,int scope_no){
         this.grammar.lexer.statements.add("<UnaryOp>");
-        UnaryExp new_unaryExp=new UnaryExp(grammar,lineno);
+        UnaryExp new_unaryExp=new UnaryExp(grammar,lineno,scope_no);
         this.next.add(new_unaryExp);new_unaryExp.pre=this;this.visited++;
         this.grammar.curNode=new_unaryExp;
     }

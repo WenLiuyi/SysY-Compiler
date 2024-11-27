@@ -12,26 +12,23 @@ public class Decl extends Node{     //ConstDecl,VarDecl的父类
     boolean isConstDecl;
     public Decl(){}
     public Decl(Grammar grammar,int lineno,int scope_no) {
-        this.grammar = grammar;
-        this.lineno = lineno;
+        super(grammar,lineno,scope_no);
         this.next= new ArrayList<Node>();
     }
-    public Decl(Grammar grammar,int lineno,boolean isConstDecl) {
-        this.grammar = grammar;
-        this.lineno = lineno;
+    public Decl(Grammar grammar,int lineno,int scope_no,boolean isConstDecl) {
+        super(grammar,lineno,scope_no);
         this.isConstDecl = isConstDecl;
         this.next= new ArrayList<Node>();
     }
     public void match(String token,LexType lexType) {
         if(this.isConstDecl) {
             // Decl -> ConstDecl
-            ConstDecl d=new ConstDecl(grammar,lineno);
-            this.next.add(d);d.pre=this;
+            ConstDecl d=new ConstDecl(grammar,lineno,scope_no);
+            this.next.add(d);d.pre=this;this.visited++;
             this.grammar.curNode=d;
-            //d.match(token,lexType);
         }else{
-            VarDecl d=new VarDecl(grammar,lineno);
-            this.next.add(d);d.pre=this;
+            VarDecl d=new VarDecl(grammar,lineno,scope_no);
+            this.next.add(d);d.pre=this;this.visited++;
             this.grammar.curNode=d;
         }
         this.lexType = lexType;

@@ -11,18 +11,18 @@ import java.util.ArrayList;
 
 public class FuncRParams extends Node{
     public int paramNum;        // FuncRParams中的实参个数
-    public FuncRParams(Grammar grammar,int lineno) {
-        super(grammar,lineno);
+    public FuncRParams(Grammar grammar,int lineno,int scope_no) {
+        super(grammar,lineno,scope_no);
         this.paramNum=0;
     }
     public void match(String token,LexType lexType){
 
     }
-    public void create_Exp(Grammar grammar,int lineno){
-        Exp exp=new Exp(grammar,lineno);
-        this.next.add(exp);exp.pre=this;
+    public void create_Exp(Grammar grammar,int lineno,int scope_no){
+        Exp exp=new Exp(grammar,lineno,scope_no);
+        this.next.add(exp);exp.pre=this;this.visited++;
         this.grammar.curNode=exp;
-        exp.create_AddExp(grammar,lineno);      // Exp -> AddExp -> MulExp -> UnaryExp
+        exp.create_AddExp(grammar,lineno,scope_no);      // Exp -> AddExp -> MulExp -> UnaryExp
         UnaryExp unaryExp=(UnaryExp) this.grammar.curNode;
         unaryExp.isFuncRParams=true;
     }

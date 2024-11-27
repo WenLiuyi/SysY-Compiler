@@ -6,11 +6,11 @@ import frontend.Tree.*;
 public class FuncFParam extends Node{
     public String token;
     public LexType lexType;
-    public FuncFParam(Grammar grammar, int lineno){
-        super(grammar,lineno);
+    public FuncFParam(Grammar grammar, int lineno,int scope_no){
+        super(grammar,lineno,scope_no);
     }
-    public FuncFParam(Grammar grammar, int lineno, String token, LexType lexType) {
-        super(grammar,lineno);
+    public FuncFParam(Grammar grammar, int lineno, int scope_no, String token, LexType lexType) {
+        super(grammar,lineno,scope_no);
         this.token=token;
         this.lexType = lexType;
     }

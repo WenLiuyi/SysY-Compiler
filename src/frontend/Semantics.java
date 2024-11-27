@@ -3,10 +3,13 @@ package frontend;
 import java.util.ArrayList;
 import frontend.Tree.*;
 import frontend.Tree.Const.ConstDecl;
+import frontend.Tree.Exp.Ident;
 import frontend.Tree.Var.VarDecl;
 import frontend.Tree.Const.*;
 import frontend.Tree.Var.*;
 import frontend.Tree.Func.*;
+
+import llvm.IR.Value.*;
 
 public class Semantics {
     public boolean defineInt;      //上一个字符串为int，表示：正在进行int标识符定义
@@ -104,13 +107,17 @@ public class Semantics {
                 System.out.println("declare:"+token);
                 boolean exists;     //查本层符号表，有无同名
                 LexType idenfr_LexType;
-                if(this.defineInt && this.defineConst){     //该符号声明对应int型常量（/数组）
+                if(node instanceof FuncDef){
+                    if(this.defineInt) idenfr_LexType=LexType.INT_FUN_IDENFR;
+                    else if(this.defineChar) idenfr_LexType=LexType.CHAR_FUN_IDENFR;
+                    else idenfr_LexType=LexType.VOID_FUN_IDENFR;
+                }else if(this.defineInt && this.defineConst){     //该符号声明对应int型常量（/数组）
                     //if(this.defineArray) idenfr_LexType=LexType.INT_CONST_ARRAY_IDENFR;
                     idenfr_LexType=LexType.INT_CONST_IDENFR;
                 }else if(this.defineChar && this.defineConst){  //该符号声明对应char型常量（/数组）
                     //if(this.defineArray) idenfr_LexType=LexType.CHAR_CONST_ARRAY_IDENFR;
                     idenfr_LexType=LexType.CHAR_CONST_IDENFR;
-                }else if(this.defineInt){  //该符号声明对应int型变量（/数组）
+                } else if(this.defineInt){  //该符号声明对应int型变量（/数组）
                     //if(this.defineArray) idenfr_LexType=LexType.INT_VAR_ARRAY_IDENFR;
                     idenfr_LexType=LexType.INT_VAR_IDENFR;
                 }else{  //该符号声明对应char型变量（/数组）
@@ -121,6 +128,18 @@ public class Semantics {
                 if(exists) {
                     return 'b';      //重复声明，报错    //b
                 }
+
+                // AST中创建并添加Ident结点
+                Ident ident=new Ident(this.grammar,this.grammar.lexer.lineNum,current_no,token);
+                node.next.add(ident);ident.pre=node;node.visited++;
+                ident.symTab=this.last_symTab;
+                if(this.current_no==0) ident.isGlobal=true;
+                if(node instanceof FuncFParam) {
+                    System.out.println("set");
+                    ident.symTab.isFuncParam=true;
+                }
+                System.out.println("define:"+grammar.curNode+" "+token+" "+ident.symTab.type+" "+ident.symTab.name);
+
             }else{                                  //引用部分:查本层符号表
                 /*有：即已声明。则取该名字信息（局部量）；
                 无：递归地转直接外层查找，若到最外层依旧未找到该标识符的声明，报错。

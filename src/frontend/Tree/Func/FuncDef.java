@@ -5,8 +5,13 @@ import frontend.LexType;
 import frontend.Tree.Node;
 
 public class FuncDef extends Node {
-    public FuncDef(Grammar grammar, int lineno) {
-        super(grammar, lineno);
+    public boolean hasFuncFParams;  // 有参数
+    public boolean isVoid;      // 是否是void函数
+
+    public FuncDef(Grammar grammar, int lineno,int scope_no) {
+        super(grammar, lineno,scope_no);
+        this.hasFuncFParams = false;
+        this.isVoid=false;
     }
     public void match(String token, LexType lexType) {
 
