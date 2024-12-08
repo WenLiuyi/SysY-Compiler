@@ -25,7 +25,7 @@ public class EqExp extends Node{
     @Override
     public void return_to_outer(){
         this.grammar.lexer.statements.add("<EqExp>");
-        this.grammar.curNode=this.pre;
-        pre.return_to_outer();
+        //this.grammar.curNode=this.pre;
+        //pre.return_to_outer();
     }
 }

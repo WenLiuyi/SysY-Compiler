@@ -14,6 +14,7 @@ public enum BinaryOpType {
     leq,        //<=
     gre,        //>
     geq,        //>=
-    eql,        //==
+    eq,        //==
     ne,        //!=
+    not,        //!
 }

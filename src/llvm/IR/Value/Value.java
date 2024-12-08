@@ -26,6 +26,7 @@ public class Value {
     public boolean isIntChar;   // 当前Value是：Number | Character
     public boolean isConst;     // 是否是常量
     public boolean isCalledFunc;    // 当前value，内容为：Ident '(' [FuncRParams] ')'
+    public boolean correspondsFuncFParam;    // 对应函数的形式参数
 
     public int num;    // int/char类型对应的值
 
@@ -41,6 +42,7 @@ public class Value {
         this.isCalledFunc=false;
         this.stringLength=0;
         this.stringID=-1;
+        this.correspondsFuncFParam=false;
     }
     public Value(){
         init();

@@ -2,11 +2,15 @@ package frontend.Tree.Exp;
 
 import frontend.*;
 import frontend.Tree.*;
+import llvm.IR.Value.Inst.BinaryOpType;
 
 // 关系表达式 RelExp → AddExp | RelExp ('<' | '>' | '<=' | '>=') AddExp
 public class RelExp extends Node{
+    public BinaryOpType opType;   // 当前RelExp与上层EqExp的之间的符号：('==' | '!=')
+
     public RelExp(Grammar grammar,int lineno,int scope_no){
         super(grammar,lineno,scope_no);
+        this.opType=BinaryOpType.eq;
     }
     public void match(String token,LexType lexType){
 

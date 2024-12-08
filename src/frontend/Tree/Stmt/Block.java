@@ -11,8 +11,15 @@ import java.util.Map;
 import frontend.Tree.Exp.*;
 
 public class Block extends Node {
+    public boolean hasBreakStmt;
+    public boolean hasContinueStmt;
+    public boolean hasReturnStmt;
+
     public Block(Grammar grammar,int lineno,int scope_no) {
         super(grammar,lineno,scope_no);
+        this.hasBreakStmt = false;
+        this.hasContinueStmt = false;
+        this.hasReturnStmt = false;
     }
     public void match(String token,LexType lexType){
         if(this.isBType(token)){                   //变量声明：Decl->VarDecl

@@ -281,7 +281,7 @@ public class Semantics {
 
     public void defineFunctionParameters(){
         if(this.last_symTab.redefined) return;
-        if(this.last_symTab!=null){
+        /*if(this.last_symTab!=null){
             if(this.defineInt){             //定义返回值为int型的函数
                 this.last_symTab.type=LexType.INT_FUN_IDENFR;
                 grammar.lexer.IntCharFunDefine=true;
@@ -291,7 +291,7 @@ public class Semantics {
             }else{                          //定义无返回值的函数
                 this.last_symTab.type=LexType.VOID_FUN_IDENFR;
             }
-        }
+        }*/
         //为函数创建新的符号表，通常层数为1，进入该作用域
         this.current_no=this.indexTable.createNewSymTable(++this.level,this.current_no,true,false);
         this.changeSymTable(this.current_no);

@@ -1,4 +1,5 @@
 package frontend;
+import com.sun.tools.javac.Main;
 import frontend.Tree.*;
 import frontend.Tree.Const.*;
 import frontend.Tree.Exp.*;
@@ -160,7 +161,6 @@ public class Lexer {
 
                 while(curPos < this.source.length()) {
                     if(this.source.charAt(curPos-1)!='\\' && this.source.charAt(curPos)=='\"') break;
-                    System.out.print(this.source.charAt(curPos));
                     if(this.semantics.inPrint && this.source.charAt(curPos)=='%' && curPos+1<this.source.length()){     //待打印的内容
                         //%d,%c为格式化字符
                         if(this.source.charAt(curPos+1)=='d'||this.source.charAt(curPos+1)=='c'){
@@ -185,7 +185,23 @@ public class Lexer {
                             token+=this.source.charAt(curPos);substr+=this.source.charAt(curPos);
                             curPos++;
                         }
-                    }else{
+                    }else if(source.charAt(curPos)=='\\'&&curPos+1<this.source.length()
+                    && (source.charAt(curPos+1)=='n'||source.charAt(curPos+1)=='t'||source.charAt(curPos+1)=='r'
+                    ||source.charAt(curPos+1)=='b'||source.charAt(curPos+1)=='f'||source.charAt(curPos+1)=='\\'
+                    ||source.charAt(curPos+1)=='\''||source.charAt(curPos+1)=='\"'||source.charAt(curPos+1)=='0')){
+                        if(source.charAt(curPos+1)=='n') {substr+='\n';}
+                        else if(source.charAt(curPos+1)=='t') {substr+='\t';}
+                        else if(source.charAt(curPos+1)=='r') {substr+='\r';}
+                        else if(source.charAt(curPos+1)=='b') {substr+='\b';}
+                        else if(source.charAt(curPos+1)=='f') {substr+='\f';}
+                        else if(source.charAt(curPos+1)=='\\') {substr+='\\';}
+                        else if(source.charAt(curPos+1)=='\'') {substr+='\'';}
+                        else if(source.charAt(curPos+1)=='\"') {substr+='\"';}
+                        else {substr+='\0';}
+                        token=token+source.charAt(curPos)+source.charAt(curPos+1);
+                        curPos+=2;
+                    }
+                    else{
                         token+=this.source.charAt(curPos);substr+=this.source.charAt(curPos);
                         curPos++;
                     }
@@ -270,7 +286,7 @@ public class Lexer {
                 if(this.grammar.curNode instanceof MulExp mulExp){
                     // 加减表达式 AddExp → MulExp | AddExp ('+' | '−') MulExp
                     //加号'+'后的式子
-                    this.grammar.curNode=mulExp.pre;
+                    this.grammar.curNode=mulExp.pre;        // MulExp <- AddExp
                     this.grammar.curNode.return_to_upper();
                 }
                 curPos++;
@@ -287,15 +303,16 @@ public class Lexer {
                 if(this.grammar.curNode instanceof UnaryExp unaryExp) {
                     // UnaryExp -> UnaryOp UnaryExp
                     unaryExp.create_UnaryExp(this.grammar,this.lineNum,semantics.current_no);
+                    ((UnaryExp) this.grammar.curNode).opType=BinaryOpType.add;
                 }
                 if(this.grammar.curNode instanceof AddExp addExp){
                     addExp.create_MulExp(this.grammar,this.lineNum,semantics.current_no);
                 }
-            }else if(c=='-'){   //词法分析时，只能将"-"识别成运算符，但无法确定其到底是用作负号还是减号。 这个工作将在语法分析阶段完成
+            }else if(c=='-'){
                 if(this.grammar.curNode instanceof MulExp mulExp){
                     // 加减表达式 AddExp → MulExp | AddExp ('+' | '−') MulExp
                     //减号'-'后的式子
-                    this.grammar.curNode=mulExp.pre;
+                    this.grammar.curNode=mulExp.pre;        // MulExp <- AddExp
                     this.grammar.curNode.return_to_upper();
                 }
                 curPos++;
@@ -316,18 +333,20 @@ public class Lexer {
                         mulExp.opType= BinaryOpType.sub;
                     }*/
                     unaryExp.create_UnaryExp(this.grammar,this.lineNum,semantics.current_no);
+                    ((UnaryExp) this.grammar.curNode).opType=BinaryOpType.sub;
                 }
                 if(this.grammar.curNode instanceof AddExp addExp){
                     addExp.create_MulExp(this.grammar,this.lineNum,semantics.current_no);
+                    MulExp mulExp=(MulExp) (grammar.curNode.pre);
+                    mulExp.opType=BinaryOpType.sub;
                 }
                 //减号'-'后的式子
                 Node mulExp_node;   // curNode是UnaryExp
                 // 考虑特例：a = +-+1;
-                for(mulExp_node=grammar.curNode;!(mulExp_node instanceof MulExp);mulExp_node=mulExp_node.pre);
+                /*for(mulExp_node=grammar.curNode;!(mulExp_node instanceof MulExp);mulExp_node=mulExp_node.pre);
                 MulExp mulExp=(MulExp)mulExp_node;
                 if(mulExp.opType.equals(BinaryOpType.add)) mulExp.opType= BinaryOpType.sub;
-                else mulExp.opType= BinaryOpType.add;
-                System.out.println("here:"+mulExp.opType);
+                else mulExp.opType= BinaryOpType.add;*/
             }
             else if(c=='%'){
                 curPos++;
@@ -446,13 +465,18 @@ public class Lexer {
                     System.out.println("NEQ !=");
 
                     if(this.grammar.curNode instanceof EqExp eqExp) {
-                        eqExp.create_RelExp(this.grammar,this.lineNum,semantics.current_no); // EqExp -> RelExp
+                        // EqExp -> RelExp -> AddExp -> MulExp -> UnaryExp
+                        eqExp.create_RelExp(this.grammar,this.lineNum,semantics.current_no);
+                        RelExp relExp=(RelExp)(grammar.curNode.pre.pre.pre);
+                        relExp.opType=BinaryOpType.ne;
                     }
+
                 }else{
                     statements.add("NOT !");
                     System.out.println("NOT !");
                     if(this.grammar.curNode instanceof UnaryExp unaryExp) {
                         unaryExp.create_UnaryExp(this.grammar,this.lineNum,semantics.current_no);
+                        ((UnaryExp) this.grammar.curNode).opType=BinaryOpType.not;
                     }
                 }
             }else if(c=='<' || c=='>'){
@@ -488,7 +512,8 @@ public class Lexer {
                 }
 
                 if(this.grammar.curNode instanceof RelExp relExp){
-                    relExp.create_AddExp(this.grammar,this.lineNum,semantics.current_no);    // RelExp -> ... -> UnaryExp
+                    // RelExp -> ... -> UnaryExp
+                    relExp.create_AddExp(this.grammar,this.lineNum,semantics.current_no);
                     AddExp addExp=(AddExp)this.grammar.curNode.pre.pre;
                     addExp.opType=opType;
                 }
@@ -522,6 +547,7 @@ public class Lexer {
                 if(this.grammar.curNode instanceof LAndExp lAndExp) {
                     lAndExp.create_EqExp(this.grammar,this.lineNum,semantics.current_no); // lAndExp -> EqExp
                 }
+
             }else if(c=='|'){
                 curPos++;
                 if(curPos<this.source.length() && this.source.charAt(curPos)!='|') {
@@ -551,9 +577,9 @@ public class Lexer {
 
                 curPos++;statements.add("OR ||");
                 System.out.println("OR ||");
-
                 if(this.grammar.curNode instanceof LOrExp lOrExp) {
-                    lOrExp.create_LAndExp(this.grammar,this.lineNum,semantics.current_no); // LOrExp -> LAndExp
+                    // LOrExp -> LAndExp -> EqExp -> RelExp -> AddExp -> MulExp -> UnaryExp
+                    lOrExp.create_LAndExp(this.grammar,this.lineNum,semantics.current_no);
                 }
             }
             else if (c == '(' || c == ')') {
@@ -561,6 +587,16 @@ public class Lexer {
                 if (!match) System.out.println("Redundant right parenthesis");
                 curPos++;
                 while(curPos<this.source.length() && Character.isWhitespace(this.source.charAt(curPos))) curPos++;
+
+                // Note 3
+                //进入/退出函数的参数定义
+                //if(!this.semantics.isAssign && (this.semantics.defineInt || this.semantics.defineChar || this.semantics.defineVoidFun))
+                if(grammar.curNode instanceof FuncDef || grammar.curNode instanceof MainFuncDef || grammar.curNode instanceof FuncFParam)
+                {
+                    if(c=='(') this.semantics.defineFunctionParameters();
+                    //else this.semantics.finishFunctionParameters();
+                    if(c==')') this.semantics.finishFunctionParameters();
+                }
 
                 /*if(c=='(' && this.grammar.curNode instanceof MainFuncDef){
                     if(curPos>=this.source.length() || this.source.charAt(curPos)!=')') errors.add(Integer.toString(lineNum)+" j");
@@ -588,8 +624,12 @@ public class Lexer {
                     else{
                         UnaryExp unaryExp=(UnaryExp)this.grammar.curNode;
                         if(!unaryExp.containsFuncRParams){
+                            // UnaryExp -> PrimaryExp -> '(' Exp ')'
+                            // Exp -> AddExp -> MulExp -> UnaryExp
                             unaryExp.PrimaryExp_in_parentheses(this.grammar,this.lineNum,semantics.current_no);
                             if(checkPrimaryExpParentheses()) len++;
+                        }
+                        else{
                         }
                     }
                 }
@@ -599,6 +639,7 @@ public class Lexer {
                 }else if(c=='(' && this.grammar.curNode instanceof Stmt stmt){
                     if(stmt.isFor){
                         // Stmt ->  'for' '(' [ForStmt] ';' [Cond] ';' [ForStmt] ')' Stmt
+                        while(curPos<len && Character.isWhitespace(this.source.charAt(curPos))) curPos++;
                         if(this.source.charAt(curPos)!=';'){
                             ForStmt forStmt=new ForStmt(this.grammar,this.lineNum,semantics.current_no);
                             stmt.next.add(forStmt);forStmt.pre=stmt;stmt.visited++;
@@ -611,7 +652,9 @@ public class Lexer {
                     }else if(stmt.isPrintf){
                         // Stmt -> 'printf''('StringConst {','Exp}')'';'
                         char ch=checkPrintf();
-                        if(ch!='z') len++;
+                        if(ch!='z') {
+                            len++;
+                        }
                     }
                 }
                 if(c==')' && this.grammar.curNode instanceof FuncFParam funcFParam){
@@ -630,7 +673,7 @@ public class Lexer {
                         1. 基本表达式 PrimaryExp → '(' Exp ')'
                             MulExp <- AddExp <- Exp
                         2. 语句 Stmt -> 'if' (' Cond ')' Stmt [ 'else' Stmt ]
-                            MulExp <- AddExp <- RelExp <- EqExp <- LAndExp <- LOrExp <- Cond
+                            MulExp <- AddExp <- RelExp <- EqExp
                         3. 语句 Stmt -> 'for' '(' [ForStmt] ';' [Cond] ';' [ForStmt] ')' Stmt
                            语句 ForStmt → LVal '=' Exp
                             MulExp <- AddExp <- Exp <- ForStmt
@@ -641,6 +684,17 @@ public class Lexer {
                             MulExp <- AddExp <- Exp <- FuncParams
                      */
                     mulExp.return_to_outer();
+                }
+                if(c==')' && this.grammar.curNode instanceof EqExp){
+                    int curPos_test=curPos;
+                    while(curPos_test<len && Character.isWhitespace(this.source.charAt(curPos_test))) curPos_test++;
+                    if(curPos_test+1<len && source.charAt(curPos_test+1)=='='
+                    && (source.charAt(curPos_test)=='!'||source.charAt(curPos_test)=='=')){
+                        // EqExp -> RelExp -> ...
+                    }else{
+                        grammar.curNode=grammar.curNode.pre;    // EqExp <- LAndExp
+                        grammar.curNode.return_to_outer();  // LAndExp <- LOrExp <- Cond
+                    }
                 }
                 if(c==')' && this.grammar.curNode instanceof ForStmt forStmt){
                     // Stmt -> 'for' '(' [ForStmt] ';' [Cond] ';' ForStmt ')' Stmt
@@ -737,12 +791,6 @@ public class Lexer {
                     }
                 }
 
-                // Note 3
-                //进入/退出函数的参数定义
-                if(!this.semantics.isAssign && (this.semantics.defineInt || this.semantics.defineChar || this.semantics.defineVoidFun)){
-                    if(c=='(') this.semantics.defineFunctionParameters();
-                    else this.semantics.finishFunctionParameters();
-                }
             } else if (c == '[' || c == ']') {
                 boolean match = this.grammar.process_Brackets(c,curPos);
                 if (!match) System.out.println("Redundant right bracket");
@@ -934,6 +982,7 @@ public class Lexer {
 
                     if(this.grammar.curNode instanceof MulExp mulExp) {
                         this.grammar.curNode.return_to_outer();
+
                         statements.add("RBRACE }");
                         System.out.println("RBRACE }");
                         if(!(this.grammar.curNode instanceof ConstInitVal) && !(this.grammar.curNode instanceof InitVal)){
@@ -966,7 +1015,6 @@ public class Lexer {
                 this.semantics.defineArray=false;
                 this.semantics.isAssign=false;          //结束赋值
 
-                //System.out.println("------");
                 /*if(this.semantics.function_symTab!=null){
                     if(this.semantics.referFunction==0){      //1.结束函数声明
                         this.semantics.current_no=0;            //回到全局作用域
@@ -990,6 +1038,10 @@ public class Lexer {
                      */
                     this.grammar.curNode=mulExp.pre;
                     this.grammar.curNode.return_to_outer();
+                }
+                if(this.grammar.curNode instanceof EqExp eqExp){
+                    this.grammar.curNode=eqExp.pre;     // EqExp <- LAndExp
+                    this.grammar.curNode.return_to_outer(); // LAndExp <- LOrExp <- Cond
                 }
                 int flag=0;
                 if(this.grammar.curNode instanceof Block block){
@@ -1109,7 +1161,9 @@ public class Lexer {
                          */
                         // 1. 第一个';'处：第一个ForStmt不存在（补充判断Cond是否存在）；或第一个ForStmt存在，Cond不存在
                         if(stmt.isFor_visited==1){
+                            System.out.println("here1");
                             if(!stmt.with_first_forStmt){
+                                while(curPos<len && Character.isWhitespace(source.charAt(curPos))) curPos++;
                                 if(this.source.charAt(curPos)!=';'){
                                     stmt.with_cond=true;
                                     Cond cond=new Cond(this.grammar,this.lineNum,semantics.current_no);
@@ -1122,6 +1176,7 @@ public class Lexer {
                         }
                         // 2. 第二个';'处：Cond不存在（补充判断第二个ForStmt是否存在）；或Cond存在，第二个ForStmt不存在
                         else if(stmt.isFor_visited==2){
+                            while(curPos<len && Character.isWhitespace(source.charAt(curPos))) curPos++;
                             if(!stmt.with_cond){
                                 if(this.source.charAt(curPos)!=')'){
                                     stmt.with_last_forStmt=true;
@@ -1404,6 +1459,7 @@ public class Lexer {
                     continue;
                 }else if(lexType.equals(LexType.RETURNTK)){
                     // Stmt ->  'return' [Exp] ';'
+                    System.out.println("before return:"+grammar.curNode);
                     this.grammar.curNode.match(token,lexType);
 
                     while(curPos<this.source.length() && Character.isWhitespace(this.source.charAt(curPos))) curPos++;
@@ -1541,6 +1597,12 @@ public class Lexer {
                     if(error!='z') errors.add(Integer.toString(lineNum)+" "+Character.toString(error));
                     continue;
                 }
+                else if(lexType.equals(LexType.IDENFR) && grammar.curNode instanceof LVal lval){
+                    char error=this.semantics.processToken(token, lexType,this.lineNum);
+                    if(error!='z') errors.add(Integer.toString(lineNum)+" "+Character.toString(error));
+                    lval.match(token,lexType);  // AST中创建并添加Ident结点
+                    continue;
+                }
 
                 if(lexType.equals(LexType.IDENFR) &&
                         (this.grammar.curNode instanceof Block block || this.grammar.curNode instanceof Stmt stmt)){
@@ -1563,11 +1625,8 @@ public class Lexer {
                         char error=this.semantics.processToken(token, lexType,this.lineNum);
                         if(error!='z') errors.add(Integer.toString(lineNum)+" "+Character.toString(error));
 
-                        // AST中创建并添加Ident结点
                         LVal lval=(LVal)this.grammar.curNode;
-                        Ident ident=new Ident(this.grammar,this.grammar.lexer.lineNum,this.semantics.current_no,token);
-                        lval.next.add(0,ident);ident.pre=lval;lval.visited++;
-                        ident.symTab=this.semantics.last_symTab;
+                        lval.match(token,lexType);  // AST中创建并添加Ident结点
 
                         continue;
                     }else{              // 无'=',说明是：Exp
@@ -1591,14 +1650,10 @@ public class Lexer {
                         primaryExp.next.add(lval);lval.pre=primaryExp;primaryExp.visited++;
                         this.grammar.curNode=lval;
 
-                        lval.match(token,lexType);
-
                         char error=this.semantics.processToken(token, lexType,this.lineNum);
                         if(error!='z') errors.add(Integer.toString(lineNum)+" "+Character.toString(error));
-                        // AST中创建并添加Ident结点
-                        Ident ident=new Ident(this.grammar,this.grammar.lexer.lineNum,this.semantics.current_no,token);
-                        lval.next.add(0,ident);ident.pre=lval;lval.visited++;
-                        ident.symTab=this.semantics.last_symTab;
+
+                        lval.match(token,lexType);  // AST中创建并添加Ident结点
 
                         if(this.source.charAt(curPos)!='['){
                             // UnaryExp -> PrimaryExp -> LVal -> Ident, 返回至MulExp

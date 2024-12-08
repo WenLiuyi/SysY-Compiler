@@ -19,7 +19,8 @@ public class Stmt extends Node {
     public boolean end_LVal;   // 对于break/continue/getint/getchar, LVal遇到'='退出后，不再创建新的Exp
     public boolean isReturn;    // 该Stmt为：'return' [Exp] ';'
 
-    public boolean isBreak;
+    public boolean isBreak;     // 1. Stmt -> break' ';'
+                                // 2. Stmt -> Block, Block中含有直接下属Stmt1，满足Stmt -> Block
     public boolean isContinue;
     public boolean isGetint;
     public boolean isGetchar;

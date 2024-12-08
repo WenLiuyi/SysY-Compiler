@@ -28,4 +28,7 @@ public enum ValueType {
     LoadInstTy,
     UnaryOperatorTy,
 
+    //
+    FalseTy,
+    TrueTy,
 }

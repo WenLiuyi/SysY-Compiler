@@ -30,7 +30,21 @@ public class PrimaryExp extends Node{
             this.return_to_upper();
         }
         else{                               // 4. PrimaryExp -> Character
-            _Character character=new _Character(this.grammar,this.lineno,this.scope_no,token.charAt(0));
+            Character ch;
+            if(token.length()==1){
+                ch=token.charAt(0);
+            }else{
+                if(token.charAt(0)=='\\'&&token.charAt(1)=='n') ch='\n';        // 换行
+                else if(token.charAt(0)=='\\'&&token.charAt(1)=='t') ch='\t';   // 制表符
+                else if(token.charAt(0)=='\\'&&token.charAt(1)=='r') ch='\r';   // 回车
+                else if(token.charAt(0)=='\\'&&token.charAt(1)=='b') ch='\b';   // 退格
+                else if(token.charAt(0)=='\\'&&token.charAt(1)=='f') ch='\f';   // 换页
+                else if(token.charAt(0)=='\\'&&token.charAt(1)=='\\') ch='\\';  // 反斜杠
+                else if(token.charAt(0)=='\\'&&token.charAt(1)=='\'') ch='\'';  // 单引号
+                else if(token.charAt(0)=='\\'&&token.charAt(1)=='\"') ch='\"';  // 双引号
+                else ch='\0';
+            }
+            _Character character=new _Character(this.grammar,this.lineno,this.scope_no,ch);
             this.next.add(character);character.pre=this;this.visited++;
             this.grammar.lexer.statements.add("<Character>");
             this.return_to_upper();

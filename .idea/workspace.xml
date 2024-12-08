@@ -5,126 +5,48 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6c5911cd-3130-4587-9a00-faeb57544371" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/frontend/Tree/Exp/Ident.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/frontend/Tree/Exp/_String.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/llvm/IR/SymTableStack.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/llvm/IR/Value/GlobalVariable.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/llvm/IR/Value/Inst/AllocaInst.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/llvm/IR/Value/Inst/BinaryInst.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/llvm/IR/Value/Inst/BinaryOpType.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/llvm/IR/Value/Inst/BranchInst.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/llvm/IR/Value/Inst/CallInst.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/llvm/IR/Value/Inst/CompareInst.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/llvm/IR/Value/Inst/GetelementInst.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/llvm/IR/Value/Inst/JumpInst.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/llvm/IR/Value/Inst/LoadInst.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/llvm/IR/Value/Inst/ReturnInst.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/llvm/IR/Value/Inst/StoreInst.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/llvm/IR/Value/Inst/TruncInst.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/llvm/IR/Value/Inst/UnaryInst.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/llvm/IR/Value/Inst/ZextInst.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/libsysy.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/libsysy.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/llvm/IR/Value/Inst/CondType.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/llvm/IR/Value/Inst/XOrInst.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/error.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/llvm_ir.ll" beforeDir="false" afterPath="$PROJECT_DIR$/llvm_ir.ll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/llvm_ir.txt" beforeDir="false" afterPath="$PROJECT_DIR$/llvm_ir.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/main.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.ll" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Grammatical_Analysis/Compiler.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Grammatical_Analysis/Compiler.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Grammatical_Analysis/config.json" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Grammatical_Analysis/config.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Grammatical_Analysis/frontend.zip" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Grammatical_Analysis/frontend.zip" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Grammatical_Analysis/frontend/Grammar.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Grammatical_Analysis/frontend/Grammar.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Grammatical_Analysis/frontend.zip" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Grammatical_Analysis/frontend/Lexer.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Grammatical_Analysis/frontend/Lexer.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Grammatical_Analysis/frontend/Semantics.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Grammatical_Analysis/frontend/Semantics.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Grammatical_Analysis/frontend/SymTable$IntFunction.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Grammatical_Analysis/frontend/SymTable$IntFunction.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Grammatical_Analysis/frontend/SymTable$IntParam.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Grammatical_Analysis/frontend/SymTable$IntParam.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Grammatical_Analysis/frontend/SymTable$SymTab.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Grammatical_Analysis/frontend/SymTable$SymTab.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Grammatical_Analysis/frontend/SymTable$referred_function_symTab.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Grammatical_Analysis/frontend/SymTable$referred_function_symTab.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Grammatical_Analysis/frontend/SymTable.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Grammatical_Analysis/frontend/SymTable.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Grammatical_Analysis/frontend/Tree/CompUnit.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Grammatical_Analysis/frontend/Tree/CompUnit.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Grammatical_Analysis/frontend/Tree/Const/ConstDecl.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Grammatical_Analysis/frontend/Tree/Const/ConstDecl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Grammatical_Analysis/frontend/Tree/Const/ConstDef.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Grammatical_Analysis/frontend/Tree/Const/ConstDef.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Grammatical_Analysis/frontend/Tree/Const/ConstExp.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Grammatical_Analysis/frontend/Tree/Const/ConstExp.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Grammatical_Analysis/frontend/Tree/Const/ConstInitVal.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Grammatical_Analysis/frontend/Tree/Const/ConstInitVal.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Grammatical_Analysis/frontend/Tree/Decl.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Grammatical_Analysis/frontend/Tree/Decl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Grammatical_Analysis/frontend/Tree/Exp/AddExp.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Grammatical_Analysis/frontend/Tree/Exp/AddExp.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Grammatical_Analysis/frontend/Tree/Exp/Cond.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Grammatical_Analysis/frontend/Tree/Exp/Cond.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Grammatical_Analysis/frontend/Tree/Exp/EqExp.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Grammatical_Analysis/frontend/Tree/Exp/EqExp.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Grammatical_Analysis/frontend/Tree/Exp/Exp.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Grammatical_Analysis/frontend/Tree/Exp/Exp.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Grammatical_Analysis/frontend/Tree/Exp/LAndExp.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Grammatical_Analysis/frontend/Tree/Exp/LAndExp.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Grammatical_Analysis/frontend/Tree/Exp/LOrExp.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Grammatical_Analysis/frontend/Tree/Exp/LOrExp.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Grammatical_Analysis/frontend/Tree/Exp/LVal.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Grammatical_Analysis/frontend/Tree/Exp/LVal.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Grammatical_Analysis/frontend/Tree/Exp/MulExp.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Grammatical_Analysis/frontend/Tree/Exp/MulExp.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Grammatical_Analysis/frontend/Tree/Exp/Number.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Grammatical_Analysis/frontend/Tree/Exp/PrimaryExp.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Grammatical_Analysis/frontend/Tree/Exp/PrimaryExp.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Grammatical_Analysis/frontend/Tree/Exp/RelExp.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Grammatical_Analysis/frontend/Tree/Exp/RelExp.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Grammatical_Analysis/frontend/Tree/Exp/UnaryExp.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Grammatical_Analysis/frontend/Tree/Exp/UnaryExp.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Grammatical_Analysis/frontend/Tree/Exp/_Character.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Grammatical_Analysis/frontend/Tree/Exp/_Character.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Grammatical_Analysis/frontend/Tree/Func/FuncDef.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Grammatical_Analysis/frontend/Tree/Func/FuncDef.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Grammatical_Analysis/frontend/Tree/Func/FuncFParam.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Grammatical_Analysis/frontend/Tree/Func/FuncFParam.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Grammatical_Analysis/frontend/Tree/Func/FuncFParams.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Grammatical_Analysis/frontend/Tree/Func/FuncFParams.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Grammatical_Analysis/frontend/Tree/Func/FuncRParams.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Grammatical_Analysis/frontend/Tree/Func/FuncRParams.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Grammatical_Analysis/frontend/Tree/Func/MainFuncDef.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Grammatical_Analysis/frontend/Tree/Func/MainFuncDef.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Grammatical_Analysis/frontend/Tree/Node.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Grammatical_Analysis/frontend/Tree/Node.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Grammatical_Analysis/frontend/Tree/Stmt/Block.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Grammatical_Analysis/frontend/Tree/Stmt/Block.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Grammatical_Analysis/frontend/Tree/Stmt/ForStmt.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Grammatical_Analysis/frontend/Tree/Stmt/ForStmt.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Grammatical_Analysis/frontend/Tree/Stmt/Stmt.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Grammatical_Analysis/frontend/Tree/Stmt/Stmt.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Grammatical_Analysis/frontend/Tree/Var/InitVal.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Grammatical_Analysis/frontend/Tree/Var/InitVal.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Grammatical_Analysis/frontend/Tree/Var/VarDecl.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Grammatical_Analysis/frontend/Tree/Var/VarDecl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Grammatical_Analysis/frontend/Tree/Var/VarDef.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Grammatical_Analysis/frontend/Tree/Var/VarDef.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Grammatical_Analysis/frontend/WriteFile.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Grammatical_Analysis/frontend/WriteFile.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/parser.txt" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Compiler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Compiler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/config.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/config.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/frontend.zip" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend.zip" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/frontend/Analyzer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/Analyzer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/frontend/Grammar.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/Grammar.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/frontend/Lexer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/Lexer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/frontend/Semantics.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/Semantics.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/frontend/SymTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/SymTable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/frontend/Tree/CompUnit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/Tree/CompUnit.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/frontend/Tree/Const/ConstDecl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/Tree/Const/ConstDecl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/frontend/Tree/Const/ConstDef.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/Tree/Const/ConstDef.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/frontend/Tree/Const/ConstExp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/Tree/Const/ConstExp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/frontend/Tree/Const/ConstInitVal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/Tree/Const/ConstInitVal.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/frontend/Tree/Decl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/Tree/Decl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/frontend/Tree/Exp/AddExp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/Tree/Exp/AddExp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/frontend/Tree/Exp/Cond.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/Tree/Exp/Cond.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/frontend/Tree/Exp/EqExp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/Tree/Exp/EqExp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/frontend/Tree/Exp/Exp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/Tree/Exp/Exp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/frontend/Tree/Exp/LAndExp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/Tree/Exp/LAndExp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/frontend/Tree/Exp/LOrExp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/Tree/Exp/LOrExp.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/frontend/Tree/Exp/LVal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/Tree/Exp/LVal.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/frontend/Tree/Exp/MulExp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/Tree/Exp/MulExp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/frontend/Tree/Exp/Number.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/Tree/Exp/_Number.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/frontend/Tree/Exp/PrimaryExp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/Tree/Exp/PrimaryExp.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/frontend/Tree/Exp/RelExp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/Tree/Exp/RelExp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/frontend/Tree/Exp/UnaryExp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/Tree/Exp/UnaryExp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/frontend/Tree/Exp/_Character.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/Tree/Exp/_Character.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/frontend/Tree/Func/FuncDef.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/Tree/Func/FuncDef.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/frontend/Tree/Func/FuncFParam.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/Tree/Func/FuncFParam.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/frontend/Tree/Func/FuncFParams.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/Tree/Func/FuncFParams.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/frontend/Tree/Func/FuncRParams.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/Tree/Func/FuncRParams.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/frontend/Tree/Func/MainFuncDef.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/Tree/Func/MainFuncDef.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/frontend/Tree/Node.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/Tree/Node.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/frontend/Tree/Stmt/Block.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/Tree/Stmt/Block.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/frontend/Tree/Stmt/ForStmt.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/Tree/Stmt/ForStmt.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/frontend/Tree/Stmt/Stmt.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/Tree/Stmt/Stmt.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/frontend/Tree/Var/InitVal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/Tree/Var/InitVal.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/frontend/Tree/Var/VarDecl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/Tree/Var/VarDecl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/frontend/Tree/Var/VarDef.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/Tree/Var/VarDef.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/frontend/WriteFile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/WriteFile.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/llvm/Generator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/llvm/Generator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/llvm/IR/LlvmContext.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/llvm/IR/LlvmContext.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/llvm/IR/Module.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/llvm/IR/Module.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/llvm/IR/SlotTracker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/llvm/IR/SlotTracker.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/llvm/IR/SymTableStack.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/llvm/IR/SymTableStack.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/llvm/IR/Value/BasicBlock.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/llvm/IR/Value/BasicBlock.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/llvm/IR/Value/Function.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/llvm/IR/Value/Function.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/llvm/IR/Value/GlobalValue.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/llvm/IR/Value/Inst/Instruction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/llvm/IR/Value/Inst/Instruction.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/llvm/IR/Value/Type.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/llvm/IR/Value/Type.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/llvm/IR/Value/Use.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/llvm/IR/Value/Use.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/llvm/IR/Value/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/llvm/IR/Value/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/llvm/IR/Value/Inst/BinaryOpType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/llvm/IR/Value/Inst/BinaryOpType.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/llvm/IR/Value/Value.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/llvm/IR/Value/Value.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/llvm/IR/Value/ValueType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/llvm/IR/Value/ValueType.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/llvm/Visitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/llvm/Visitor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/symbol.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/symbol.ll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/symbol.txt" beforeDir="false" afterPath="$PROJECT_DIR$/symbol.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/testfile.txt" beforeDir="false" afterPath="$PROJECT_DIR$/testfile.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -135,8 +57,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Enum" />
         <option value="Class" />
+        <option value="Enum" />
       </list>
     </option>
   </component>
@@ -172,27 +94,28 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.Compiler.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "main",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/16584/Documents/分布式/实验2资料/6.5840",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Project",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "preferences.intentionPowerPack",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.Compiler.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Public/Documents/Grammatical_Analysis&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.intentionPowerPack&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Public\Documents\Grammatical_Analysis" />
       <recent name="C:\Users\Public\Documents\Grammatical_Analysis\src" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
@@ -234,6 +157,8 @@
       <workItem from="1731975331681" duration="181065000" />
       <workItem from="1732509350375" duration="85147000" />
       <workItem from="1732683063295" duration="2797000" />
+      <workItem from="1732950847473" duration="127450000" />
+      <workItem from="1733313479195" duration="142179000" />
     </task>
     <servers />
   </component>
@@ -250,6 +175,16 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="java.lang.ClassCastException" package="java.lang" />
+          <option name="timeStamp" value="24" />
+        </breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

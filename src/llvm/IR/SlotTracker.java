@@ -1,5 +1,6 @@
 package llvm.IR;
 
+import llvm.IR.Value.Function;
 import llvm.IR.Value.Value;
 import frontend.Tree.Exp.*;
 
@@ -10,9 +11,22 @@ import java.util.HashMap;
 public class SlotTracker extends Value {
     public HashMap<Value, Integer> slot;
     public int reg;
+    public Function function;
+
     public SlotTracker() {
         this.slot = new HashMap<>();
         this.reg=0;
+    }
+    public void allocReg(){
+        this.reg++;     // 函数形参的寄存器已分配完毕
+        int len=this.function.valueList.size();
+        for(int i=0;i<len;i++){         // 给function中的所有value，逐个分配寄存器
+            Value inserted_value=this.function.valueList.get(i);
+            if(!this.slot.containsKey(inserted_value)){
+                insert(inserted_value);
+                this.reg++;
+            }
+        }
     }
     // 插入函数：插入键值对(value, reg)
     public void insert(Value value){

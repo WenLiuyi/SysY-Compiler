@@ -137,6 +137,7 @@ public class Generator {
         if(funcType.isEmpty()) funcType="void";
         String funcHead="define dso_local "+funcType+" @"+func.name+"(";
         int paramNum=func.paramList.size();
+
         for(int i=0;i<paramNum;i++){
             Value param=func.paramList.get(i);
             String paramHead=getValueType(param);
@@ -146,7 +147,10 @@ public class Generator {
         funcHead+=") {";
         contents.add(funcHead);System.out.println(funcHead);
 
-        func.slotTracker.reg+=1;
+        // 遍历当前function的valueList, 给Value逐个分配寄存器
+        func.slotTracker.allocReg();
+
+        //func.slotTracker.reg+=1;
         int len=func.basicBlockList.size();
         for(int i=0;i<len;i++){
             visitBlock(func,func.basicBlockList.get(i),funcType);
@@ -157,21 +161,29 @@ public class Generator {
         System.out.println("<enter basicblock "+basicBlock.id+">");
         int len=basicBlock.instList.size();
 
+        int reg_block=func.slotTracker.getReg(basicBlock.value,false);
+        if(reg_block>0){
+            String str_block=reg_block+":";
+            contents.add(str_block);System.out.println(str_block);
+        }
+        if(len==0){
+            String str="ret void";
+            //contents.add(str);System.out.println(str);
+        }
         for(int i=0;i<len;i++){
             Instruction inst=basicBlock.instList.get(i);
             if(inst instanceof AllocaInst){
                 // <result> = alloca <type>, 例：%3 = alloca i32
                 Use use=inst.usesList.get(0);
-                func.slotTracker.insert(use.usee);func.slotTracker.reg++;
+                int reg=func.slotTracker.getReg(use.usee,false);
 
                 Type type=use.usee.type;
-                String str="%"+(func.slotTracker.reg-1)+"=alloca "+getValueType(use.usee);
+                String str="%"+reg+"=alloca "+getValueType(use.usee);
                 contents.add(str);System.out.println(str);
             }
             else if(inst instanceof BinaryInst binaryInst){
                 Use use_sum=inst.usesList.get(0),use_add1=inst.usesList.get(1),use_add2=inst.usesList.get(2);
-                func.slotTracker.insert(use_sum.usee);     // 分配一个寄存器存储和
-                int reg_dst=func.slotTracker.reg;func.slotTracker.reg++;
+                int reg_dst=func.slotTracker.getReg(use_sum.usee,false);    // 分配一个寄存器存储和
 
                 int reg_src1=func.slotTracker.getReg(use_add1.usee,false),reg_src2=func.slotTracker.getReg(use_add2.usee,false);
                 String str1="",str2="";
@@ -208,8 +220,7 @@ public class Generator {
             else if(inst instanceof CompareInst compareInst){
                 // <result> = icmp <cond> <ty> <op1>, <op2>
                 Use use_result=inst.usesList.get(0),use_left=inst.usesList.get(1),use_right=inst.usesList.get(2);
-                func.slotTracker.insert(use_result.usee);     // 分配一个寄存器存储比较结果
-                int reg_dst=func.slotTracker.reg;func.slotTracker.reg++;
+                int reg_dst=func.slotTracker.getReg(use_result.usee,false); // 分配一个寄存器存储比较结果
 
                 int reg_src1=func.slotTracker.getReg(use_left.usee,false),reg_src2=func.slotTracker.getReg(use_right.usee,false);
                 String str1="",str2="";
@@ -236,6 +247,7 @@ public class Generator {
                 else if(compareInst.opType.equals(BinaryOpType.leq)) op="sle";
                 else if(compareInst.opType.equals(BinaryOpType.geq)) op="sge";
                 else if(compareInst.opType.equals(BinaryOpType.mod)) op="srem";
+                else if(compareInst.opType.equals(BinaryOpType.eq)) op="eq";
                 else op="ne";
 
                 String str="%"+reg_dst+"=icmp "+op+" "+getValueType(use_left.usee)+" "+str1+", "+str2;
@@ -243,17 +255,20 @@ public class Generator {
             }
             else if(inst instanceof BranchInst){
                 if(inst.usesList.size()==1){
-
+                    // 跳转指令: br label <dest>
+                    int output_reg=func.slotTracker.getReg(inst.usesList.get(0).usee,false);
+                    String str="br label %"+output_reg;
+                    contents.add(str);System.out.println(str);
                 }else{
                     // 跳转指令: br i1 <cond>, label <iftrue>, label <iffalse>
                     Use use_cond=inst.usesList.get(0),use_iffalse=inst.usesList.get(1),use_iftrue=inst.usesList.get(2);
-                    String str="br i1 %"+func.slotTracker.getReg(use_cond.usee,false);
+                    String str="";
+                    if(use_cond.usee.valueType.equals(ValueType.FalseTy)) str+="br i1 false";
+                    else if(use_cond.usee.valueType.equals(ValueType.TrueTy)) str+="br i1 true";
+                    else str+="br i1 %"+func.slotTracker.getReg(use_cond.usee,false);
 
-                    func.slotTracker.insert(use_iffalse.usee);int reg_false=func.slotTracker.reg++;
-                    str+=", label %"+reg_false;
-                    // iffalse
-
-
+                    int reg_true=func.slotTracker.getReg(use_iftrue.usee,false),reg_false=func.slotTracker.getReg(use_iffalse.usee,false);
+                    str+=", label %"+reg_true+", label %"+reg_false;
                     contents.add(str);System.out.println(str);
                 }
 
@@ -267,8 +282,8 @@ public class Generator {
                 }else{      // int/char型函数
                     // call指令：<result> = call [ret attrs] <ty> <name>(<...args>)
                     Use use_call_dst=inst.usesList.get(0);use_call_func=inst.usesList.get(1);
-                    func.slotTracker.insert(use_call_dst.usee);
-                    str="%"+Integer.toString(func.slotTracker.reg)+"=call "+getValueType(use_call_dst.usee)+" @"+use_call_func.usee.name+"(";
+                    int reg_dst=func.slotTracker.getReg(use_call_dst.usee,false);
+                    str="%"+reg_dst+"=call "+getValueType(use_call_dst.usee)+" @"+use_call_func.usee.name+"(";
                     func.slotTracker.reg++;
                 }
 
@@ -299,13 +314,14 @@ public class Generator {
                 // <result> = load <ty>, ptr <pointer>, 例：%5 = load i32, i32* %3
                 Use use_src=inst.usesList.get(0),use_dst=inst.usesList.get(1);
                 int reg_src=func.slotTracker.getReg(use_src.usee,false);
+                int reg_dst=func.slotTracker.getReg(use_dst.usee,false);
                 if(reg_src<0){
                     Ident ident=use_src.usee.ident;     // 局部变量中找不到，则为全局变量
-                    String str="%"+func.slotTracker.getReg(use_dst.usee,true)
+                    String str="%"+reg_dst
                             +"=load "+getValueType(use_src.usee)+", "+getValueType(use_src.usee)+"* @"+ident.name;
                     contents.add(str);System.out.println(str);
                 }else{
-                    String str="%"+func.slotTracker.getReg(use_dst.usee,true)
+                    String str="%"+reg_dst
                             +"=load "+getValueType(use_src.usee)+", "+getValueType(use_src.usee)+"* %"+func.slotTracker.getReg(use_src.usee,false);
                     contents.add(str);System.out.println(str);
                 }
@@ -328,7 +344,7 @@ public class Generator {
                 if(reg_pointer<0){  // 局部变量中找不到，则为全局变量
                     str_pointer="* @"+ident.name;
                 }else{
-                    str_pointer="* %"+func.slotTracker.getReg(use_dst.usee,true);
+                    str_pointer="* %"+reg_pointer;
                 }
                 String str="store "+getValueType(use_src.usee)+" "+str_value+", "+getValueType(use_dst.usee)+str_pointer;
                 contents.add(str);System.out.println(str);
@@ -356,8 +372,7 @@ public class Generator {
             }
             else if(inst instanceof TruncInst){
                 Use use_trunc_src=inst.usesList.get(0),use_trunc_dst=inst.usesList.get(1);
-                int reg_dst=func.slotTracker.reg;
-                func.slotTracker.insert(use_trunc_dst.usee);func.slotTracker.reg++;
+                int reg_dst=func.slotTracker.getReg(use_trunc_dst.usee,false);
 
                 String str_value_src="";
                 if(use_trunc_src.usee.isIntChar){
@@ -372,8 +387,7 @@ public class Generator {
             }
             else if(inst instanceof ZextInst){
                 Use use_zext_src=inst.usesList.get(0),use_zext_dst=inst.usesList.get(1);
-                int reg_dst=func.slotTracker.reg;
-                func.slotTracker.insert(use_zext_dst.usee);func.slotTracker.reg++;
+                int reg_dst=func.slotTracker.getReg(use_zext_dst.usee,false);
 
                 String str_value_src="";
                 if(use_zext_src.usee.isIntChar){
@@ -386,10 +400,37 @@ public class Generator {
                 String str="%"+reg_dst+"=zext "+getValueType(use_zext_src.usee)+" "+str_value_src+" to "+getValueType(use_zext_dst.usee);
                 contents.add(str);System.out.println(str);
             }
+            else if(inst instanceof XOrInst){
+                // <result> = xor <ty> <op1>, <op2>
+                Use use_xor_dst=inst.usesList.get(0),use_xor_left=inst.usesList.get(1),use_xor_right=inst.usesList.get(2);
+                int reg_dst=func.slotTracker.getReg(use_xor_dst.usee,false);
+                String str="%"+reg_dst+"=xor "+getValueType(use_xor_left.usee)+" ";
+
+                int reg_left=func.slotTracker.getReg(use_xor_left.usee,false);
+                if(reg_left<0){
+                    str+="@"+use_xor_left.usee.ident.name;
+                }else{
+                    str+="%"+reg_left;
+                }
+
+                if(use_xor_right.usee.valueType.equals(ValueType.FalseTy)){
+                    str+=", false";
+                }else if(use_xor_right.usee.valueType.equals(ValueType.TrueTy)){
+                    str+=", true";
+                }else{
+                    int reg_right=func.slotTracker.getReg(use_xor_right.usee,false);
+                    if(reg_right<0){
+                        str+="@"+use_xor_right.usee.ident.name;
+                    }else{
+                        str+="%"+reg_right;
+                    }
+                }
+                contents.add(str);System.out.println(str);
+            }
             else if(inst instanceof GetelementInst){
                 // <result> = getelementptr <ty>, ptr <ptrval>{, <ty> <idx>}*
                 Use use_dst=inst.usesList.get(0),use_array=inst.usesList.get(1),use_pos=inst.usesList.get(2);
-                func.slotTracker.insert(use_dst.usee);int reg_dst=func.slotTracker.reg++;
+                int reg_dst=func.slotTracker.getReg(use_dst.usee,false);
 
                 String str_array="",str_pos="";
                 int reg_array=func.slotTracker.getReg(use_array.usee,false);

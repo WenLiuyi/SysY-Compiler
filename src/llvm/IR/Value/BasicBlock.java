@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 public class BasicBlock extends Value {
     public int id;      // 编号
+    public Value value;
     public ArrayList<Instruction> instList;     //基本块内部，由若干指令（Instruction）组成
     public IndexTable.IndexTab indexTab;    // 当前符号表的索引项
     public SymTable symTable;   // 当前符号表

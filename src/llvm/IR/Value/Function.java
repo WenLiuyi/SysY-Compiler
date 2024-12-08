@@ -16,12 +16,14 @@ public class Function extends User {
         this.basicBlockList = new ArrayList<BasicBlock>();
         this.paramList=new ArrayList<Value>();
         this.slotTracker = new SlotTracker();
+        this.slotTracker.function=this;
     }
     public Function(ValueType valueType,Type type,String name) {
         super(valueType,type);
         this.basicBlockList = new ArrayList<BasicBlock>();
         this.paramList=new ArrayList<Value>();
         this.slotTracker = new SlotTracker();
+        this.slotTracker.function=this;
         this.valueList=new ArrayList<>();
         this.name = name;   // 函数名称
     }

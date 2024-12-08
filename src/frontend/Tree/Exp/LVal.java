@@ -9,7 +9,12 @@ public class LVal extends Node{
         super(grammar,lineno,scope_no);
     }
     public void match(String token,LexType lexType){
-        if(this.isIdent(lexType)) return;
+        if(this.isIdent(lexType)){
+            // AST中创建并添加Ident结点
+            Ident ident=new Ident(this.grammar,this.grammar.lexer.lineNum,this.grammar.lexer.semantics.current_no,token);
+            this.next.add(0,ident);ident.pre=this;this.visited++;
+            ident.symTab=this.grammar.lexer.semantics.last_symTab;
+        }
     }
 
     @Override

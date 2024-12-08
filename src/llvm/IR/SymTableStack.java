@@ -26,6 +26,7 @@ public class SymTableStack {
     public class SymTabEntry{
         public SymTable.SymTab symTab;
         public Value value;
+        public boolean isFuncFParam;    // 对应函数的形式参数
 
         public SymTabEntry(SymTable.SymTab symTab, Value value) {
             this.symTab = symTab;
