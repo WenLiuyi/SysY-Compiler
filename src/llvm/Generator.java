@@ -147,10 +147,24 @@ public class Generator {
         funcHead+=") {";
         contents.add(funcHead);System.out.println(funcHead);
 
-        // 遍历当前function的valueList, 给Value逐个分配寄存器
+        // 1. 遍历当前function的allocatedValueList, 先对AllocaInst指令中提及的value，分配寄存器
+        // 2. 遍历当前function的valueList, 给Value逐个分配寄存器
         func.slotTracker.allocReg();
 
         //func.slotTracker.reg+=1;
+        // 处理本函数内的AllocaInst
+        int allocaLen=func.allocaInstList.size();
+        for(int i=0;i<allocaLen;i++){
+            AllocaInst allocaInst=func.allocaInstList.get(i);
+            // <result> = alloca <type>, 例：%3 = alloca i32
+            Use use=allocaInst.usesList.get(0);
+            int reg=func.slotTracker.getReg(use.usee,false);
+
+            Type type=use.usee.type;
+            String str="%"+reg+"=alloca "+getValueType(use.usee);
+            contents.add(str);System.out.println(str);
+        }
+
         int len=func.basicBlockList.size();
         for(int i=0;i<len;i++){
             visitBlock(func,func.basicBlockList.get(i),funcType);
@@ -172,16 +186,7 @@ public class Generator {
         }
         for(int i=0;i<len;i++){
             Instruction inst=basicBlock.instList.get(i);
-            if(inst instanceof AllocaInst){
-                // <result> = alloca <type>, 例：%3 = alloca i32
-                Use use=inst.usesList.get(0);
-                int reg=func.slotTracker.getReg(use.usee,false);
-
-                Type type=use.usee.type;
-                String str="%"+reg+"=alloca "+getValueType(use.usee);
-                contents.add(str);System.out.println(str);
-            }
-            else if(inst instanceof BinaryInst binaryInst){
+            if(inst instanceof BinaryInst binaryInst){
                 Use use_sum=inst.usesList.get(0),use_add1=inst.usesList.get(1),use_add2=inst.usesList.get(2);
                 int reg_dst=func.slotTracker.getReg(use_sum.usee,false);    // 分配一个寄存器存储和
 

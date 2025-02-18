@@ -19,6 +19,15 @@ public class SlotTracker extends Value {
     }
     public void allocReg(){
         this.reg++;     // 函数形参的寄存器已分配完毕
+        int allocaLen=this.function.allocatedValueList.size();
+        for(int i=0;i<allocaLen;i++){
+            Value allocated_value=this.function.allocatedValueList.get(i);
+            if(!this.slot.containsKey(allocated_value)){
+                insert(allocated_value);
+                this.reg++;
+            }
+        }
+
         int len=this.function.valueList.size();
         for(int i=0;i<len;i++){         // 给function中的所有value，逐个分配寄存器
             Value inserted_value=this.function.valueList.get(i);

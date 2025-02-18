@@ -86,7 +86,8 @@ public class IndexTable {       //分程序索引表
                     int curPos_test=semantics.grammar.lexer.curPos,source_len=semantics.grammar.lexer.source.length();
                     while(curPos_test<source_len && Character.isWhitespace(semantics.grammar.lexer.source.charAt(curPos_test))) curPos_test++;
 
-                    if(semantics.grammar.lexer.source.charAt(curPos_test)=='['){
+                    int strlen=semantics.grammar.lexer.source.length();
+                    if(curPos_test<strlen && semantics.grammar.lexer.source.charAt(curPos_test)=='['){
                         // 1. LVal → Ident '[' Exp ']'
                         while(curPos_test<source_len && semantics.grammar.lexer.source.charAt(curPos_test)!=']'){
                             if(semantics.grammar.lexer.source.charAt(curPos_test)=='='){found_equal=true;break;}
@@ -97,11 +98,19 @@ public class IndexTable {       //分程序索引表
                             while(curPos_test<source_len && Character.isWhitespace(semantics.grammar.lexer.source.charAt(curPos_test))) curPos_test++;
                             if(curPos_test<source_len && semantics.grammar.lexer.source.charAt(curPos_test)=='='){
                                 found_equal=true;
+                                if(curPos_test+1<source_len && semantics.grammar.lexer.source.charAt(curPos_test+1)=='='){
+                                    found_equal=false;      // '=='符号
+                                }
                             }
                         }
                     }else{
                         // 2. LVal → Ident
-                        if(semantics.grammar.lexer.source.charAt(curPos_test)=='=') found_equal=true;
+                        if(curPos_test<strlen && semantics.grammar.lexer.source.charAt(curPos_test)=='=') {
+                            found_equal=true;
+                            if(curPos_test+1<source_len && semantics.grammar.lexer.source.charAt(curPos_test+1)=='='){
+                                found_equal=false;      // '=='符号
+                            }
+                        }
                     }
                     if(found_equal){
                         semantics.grammar.lexer.errors.add(Integer.toString(semantics.grammar.lexer.lineNum)+" h"); //h   //h

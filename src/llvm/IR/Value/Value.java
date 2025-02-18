@@ -2,6 +2,7 @@ package llvm.IR.Value;
 
 import java.util.ArrayList;
 import frontend.Tree.Exp.Ident;
+import llvm.IR.Value.Inst.CompareInst;
 
 public class Value {
     public ValueType valueType;    // 语法类型
@@ -27,6 +28,10 @@ public class Value {
     public boolean isConst;     // 是否是常量
     public boolean isCalledFunc;    // 当前value，内容为：Ident '(' [FuncRParams] ')'
     public boolean correspondsFuncFParam;    // 对应函数的形式参数
+    public boolean isGlobalValue;    // 是全局变量
+    public boolean withAllocatedSpace;  // 分配有寄存器，是函数参数/局部变量
+
+    public CompareInst compareInst;     // 当前value作为跳转的判定条件，关联的比较语句
 
     public int num;    // int/char类型对应的值
 
@@ -35,6 +40,7 @@ public class Value {
         this.usesList=new ArrayList<Use>();
         this.num=0;
         this.isIntChar=false;
+        this.isGlobalValue=false;
         this.arrayLength=-1;
         this.zeroinitialized=true;
         this.isArray=false;
@@ -43,6 +49,7 @@ public class Value {
         this.stringLength=0;
         this.stringID=-1;
         this.correspondsFuncFParam=false;
+        this.withAllocatedSpace=false;
     }
     public Value(){
         init();

@@ -1,20 +1,17 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 
 import java.io.*;
 import java.nio.file.*;
-import java.util.*;
 
+import backend.Translator;
 import frontend.*;
 import frontend.Tree.*;
-import frontend.Tree.Func.FuncDef;
-import frontend.Tree.Func.MainFuncDef;
+import frontend.Tree.Func.*;
 import frontend.Tree.Stmt.*;
-import frontend.Tree.Var.VarDecl;
+import frontend.Tree.Var.*;
 import llvm.Generator;
 
 public class Compiler {
@@ -35,12 +32,22 @@ public class Compiler {
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }*/
-
+        // 1. 词法、语法、语义分析
         Analyzer analyzer=new Analyzer("testfile.txt");
         analyzer.analyze();
-        //if(!analyzer.lexer.errors.isEmpty()) return;
+        if(!analyzer.lexer.errors.isEmpty()){
+            //WriteFile writer = new WriteFile();
+            //writer.write("llvm_ir.txt",analyzer.lexer.errors);
+            return;
+        }
+
+        // 2. 中间代码llvm IR生成
         Generator generator=new Generator(analyzer);
         generator.generate();
+
+        // 3. 目标代码mips生成
+        //Translator translator=new Translator(generator.llvmHead);
+        //translator.translate();
     }
 
     // 删除文件的方法

@@ -38,6 +38,8 @@ public class Visitor {      // 遍历语法树
     public BasicBlock curBlock;     // 当前所在的基本块
     public int blockId;     // 基本块编号
 
+    public int allocaNum;   // AllocaInst数目
+
     public SymTableStack symTableStack;
 
     public Stack<BasicBlock> outloopBlock_Stack;      // 当前for循环的出口基本块（break跳转至此）
@@ -49,6 +51,7 @@ public class Visitor {      // 遍历语法树
         this.curNode = treeHead;
         this.scope_no = 0;      // 初始化为全局作用域编号：0
         this.blockId=1;
+        this.allocaNum=0;
         info=new ArrayList<String>();
         outloopBlock_Stack=new Stack<>();
         forStmtBlock_Stack=new Stack<>();
@@ -118,9 +121,12 @@ public class Visitor {      // 遍历语法树
             // Use关系：alloca <reg-type> for funcFParam
             Use use_alloca=new Use(constant,allocaInst);
             llvmCtx.usesList.add(use_alloca);allocaInst.usesList.add(use_alloca);
-            this.curBlock.instList.add(allocaInst); // alloca指令插入到当前基本块
+            constant.withAllocatedSpace=true;
             // constant加入当前function的valueList
             curFunction.valueList.add(constant);
+            curFunction.allocatedValueList.add(constant);
+            curFunction.allocaInstList.add(allocaInst);
+            curBlock.instList.add(allocaInst);
         }
 
         if(len==1){
@@ -166,6 +172,7 @@ public class Visitor {      // 遍历语法树
             GlobalVariable globalVariable=(GlobalVariable)this.curValue;
             globalVariable.instList.add(storeInst);
             globalVariable.num=storeInst.usesList.get(0).usee.num;
+            constant.isGlobalValue=true;
         }
 
         // 栈式符号表插入新定义的常量:
@@ -303,9 +310,12 @@ public class Visitor {      // 遍历语法树
             // Use关系：alloca <reg-type>
             Use use_alloca=new Use(var,allocaInst);
             llvmCtx.usesList.add(use_alloca);allocaInst.usesList.add(use_alloca);
-            this.curBlock.instList.add(allocaInst); // alloca指令插入到当前基本块
+            var.withAllocatedSpace=true;
             // var加入当前function的valueList
             curFunction.valueList.add(var);
+            curFunction.allocatedValueList.add(var);
+            curFunction.allocaInstList.add(allocaInst);
+            curBlock.instList.add(allocaInst);
         }
 
         if(lastNode instanceof InitVal){
@@ -373,6 +383,7 @@ public class Visitor {      // 遍历语法树
             GlobalVariable globalVariable=(GlobalVariable)this.curValue;
             globalVariable.instList.add(storeInst);
             globalVariable.num=storeInst.usesList.get(0).usee.num;
+            var.isGlobalValue=true;
         }
 
         // 栈式符号表插入新定义的变量:
@@ -484,6 +495,7 @@ public class Visitor {      // 遍历语法树
     }
     void visit_FuncDef(FuncDef funcDef) {
         this.scope_no=curNode.next.get(curNode.visited).scope_no;   // Block的scope_no
+        this.allocaNum=0;
         // 函数定义 FuncDef → FuncType Ident '(' [FuncFParams] ')' Block
         Ident ident=(Ident)(curNode.next.get(0));Type type;
         if(ident.symTab.type.equals(LexType.INT_FUN_IDENFR)) type=Type.IntegerTyID;
@@ -512,6 +524,7 @@ public class Visitor {      // 遍历语法树
     }
     void visit_MainFuncDef(MainFuncDef mainFuncDef) {
         this.scope_no=mainFuncDef.scope_no;
+        this.allocaNum=0;
         // 主函数定义 MainFuncDef → 'int' 'main' '(' ')' Block
         llvm.IR.Value.Function function=new llvm.IR.Value.Function(ValueType.FunctionTy,Type.IntegerTyID,"main");
         llvmCtx.functionsList.add(function);
@@ -552,9 +565,12 @@ public class Visitor {      // 遍历语法树
         Value new_param=new Value(ValueType.VariableDataTy,ident.getType(),ident.name);new_param.ident=ident;
         Use use_dst=new Use(new_param,allocaInst);
         llvmCtx.usesList.add(use_dst);allocaInst.usesList.add(use_dst);
-        this.curBlock.instList.add(cnt,allocaInst); // alloca指令插入到当前基本块
+        new_param.withAllocatedSpace=true;
         // new_param加入当前function的valueList
         curFunction.valueList.add(new_param);
+        curFunction.allocatedValueList.add(new_param);
+        curFunction.allocaInstList.add(allocaInst);     // alloca指令插入到当前基本块
+        curBlock.instList.add(allocaInst);
 
         // 2. store指令：store i32 %0, i32* %3
         StoreInst storeInst=new StoreInst();
@@ -1920,7 +1936,6 @@ public class Visitor {      // 遍历语法树
 
             if(result_data.isIntChar && result_data.num==0 && result.isIntChar){
                 // 1.1 当前EqExp为假，当前及之前所有的EqExp均为数字/字符，无需继续判断
-                System.out.println("here");
                 result.num=0;
                 curNode=curNode.pre;
                 return;
@@ -2293,6 +2308,8 @@ public class Visitor {      // 遍历语法树
                 if(!curFunction.valueList.contains(data)){
                     curFunction.valueList.add(data);
                 }
+            }else{
+                data.num=data_init.num;
             }
         }
         else{
@@ -2309,7 +2326,9 @@ public class Visitor {      // 遍历语法树
                     curFunction.valueList.add(data);
                 }
             }
-            else data.num=data_init.num;
+            else{
+                data.num=data_init.num;
+            }
         }
     }
     void visit_UnaryExp(UnaryExp unaryExp,Value data) {
@@ -2358,6 +2377,7 @@ public class Visitor {      // 遍历语法树
                 if(llvmCtx.functionsList.get(i).name.equals(ident.name)){
                     funcType=llvmCtx.functionsList.get(i).type;
                     prototype=llvmCtx.functionsList.get(i);
+                    called_function.prototype_function=prototype;   // 定义的函数原型
                     break;
                 }
             }

@@ -1,0 +1,305 @@
+.data
+.str: .asciiz "21371295\n\0"
+.text
+
+j func_main
+func_main:
+li $v0, 4
+syscall
+li $t0, 0
+sw $t0, -4($sp)
+# add
+li $t0, 0
+li $t1, 0
+add $t2, $t0, $t1
+sw $t2, -8($sp)
+# load
+lw $t0, -4($sp)
+sw $sp, -12($t0)
+# gre
+lw $t0, -12($sp)
+li $t1, 0
+sgt $t2, $t0, $t1
+sw $t2, -16($sp)
+# ne
+lw $t0, -16($sp)
+li $t1, 0
+sne $t2, $t0, $t1
+sw $t2, -24($sp)
+lw $t0, -24($sp)
+bnez $t0, func_main_1
+j func_main_2
+
+func_main_1:
+li $t0, 1
+sw $t0, -4($sp)
+j func_main_3
+
+func_main_2:
+li $t0, 0
+sw $t0, -4($sp)
+j func_main_3
+
+func_main_3:
+li $t0, 1
+sw $t0, -32($sp)
+li $t0, 2
+sw $t0, -36($sp)
+# load
+lw $t0, -32($sp)
+sw $sp, -40($t0)
+# geq
+lw $t0, -40($sp)
+li $t1, 1
+sge $t2, $t0, $t1
+sw $t2, -44($sp)
+# ne
+lw $t0, -44($sp)
+li $t1, 0
+sne $t2, $t0, $t1
+sw $t2, -52($sp)
+lw $t0, -52($sp)
+bnez $t0, func_main_4
+j func_main_5
+
+func_main_4:
+li $t0, 1
+sw $t0, -32($sp)
+j func_main_5
+
+func_main_5:
+# load
+lw $t0, -32($sp)
+sw $sp, -60($t0)
+# geq
+lw $t0, -60($sp)
+li $t1, 1
+sge $t2, $t0, $t1
+sw $t2, -64($sp)
+# ne
+lw $t0, -64($sp)
+li $t1, 0
+sne $t2, $t0, $t1
+sw $t2, -72($sp)
+lw $t0, -72($sp)
+bnez $t0, func_main_6
+j func_main_7
+
+func_main_6:
+j func_main_7
+
+func_main_7:
+# load
+lw $t0, -32($sp)
+sw $sp, -80($t0)
+# not
+lw $t0, -80($sp)
+not $t1, $t0
+sw $t1, -84($sp)
+# ne
+lw $t0, -88($sp)
+li $t1, 0
+sne $t2, $t0, $t1
+sw $t2, -96($sp)
+lw $t0, -96($sp)
+bnez $t0, func_main_8
+j func_main_9
+
+func_main_8:
+j func_main_10
+
+func_main_9:
+j func_main_10
+
+func_main_10:
+# load
+lw $t0, -36($sp)
+sw $sp, -104($t0)
+# leq
+lw $t0, -104($sp)
+li $t1, 2
+sle $t2, $t0, $t1
+sw $t2, -108($sp)
+# ne
+lw $t0, -108($sp)
+li $t1, 0
+sne $t2, $t0, $t1
+sw $t2, -116($sp)
+lw $t0, -116($sp)
+bnez $t0, func_main_11
+j func_main_12
+
+func_main_11:
+li $t0, 2
+sw $t0, -36($sp)
+j func_main_12
+
+func_main_12:
+# load
+lw $t0, -32($sp)
+sw $sp, -124($t0)
+# load
+lw $t0, -36($sp)
+sw $sp, -128($t0)
+# eq
+lw $t0, -124($sp)
+lw $t1, -128($sp)
+seq $t2, $t0, $t1
+sw $t2, -132($sp)
+lw $t0, -132($sp)
+bnez $t0, func_main_13
+j func_main_14
+
+func_main_13:
+li $t0, 1
+sw $t0, -4($sp)
+j func_main_14
+
+func_main_14:
+# load
+lw $t0, -32($sp)
+sw $sp, -140($t0)
+# load
+lw $t0, -36($sp)
+sw $sp, -144($t0)
+# ne
+lw $t0, -140($sp)
+lw $t1, -144($sp)
+sne $t2, $t0, $t1
+sw $t2, -148($sp)
+lw $t0, -148($sp)
+bnez $t0, func_main_15
+j func_main_16
+
+func_main_15:
+li $t0, 0
+sw $t0, -4($sp)
+j func_main_16
+
+func_main_16:
+# load
+lw $t0, -32($sp)
+sw $sp, -156($t0)
+# load
+lw $t0, -36($sp)
+sw $sp, -160($t0)
+# ne
+lw $t0, -156($sp)
+lw $t1, -160($sp)
+sne $t2, $t0, $t1
+sw $t2, -164($sp)
+lw $t0, -164($sp)
+bnez $t0, func_main_17
+j func_main_18
+
+func_main_17:
+# load
+lw $t0, -32($sp)
+sw $sp, -168($t0)
+# gre
+lw $t0, -168($sp)
+li $t1, 1
+sgt $t2, $t0, $t1
+sw $t2, -172($sp)
+# ne
+lw $t0, -172($sp)
+li $t1, 0
+sne $t2, $t0, $t1
+sw $t2, -180($sp)
+lw $t0, -180($sp)
+bnez $t0, func_main_19
+j func_main_18
+
+func_main_19:
+li $t0, 1
+sw $t0, -4($sp)
+j func_main_18
+
+func_main_18:
+# load
+lw $t0, -32($sp)
+sw $sp, -188($t0)
+# load
+lw $t0, -36($sp)
+sw $sp, -192($t0)
+# ne
+lw $t0, -188($sp)
+lw $t1, -192($sp)
+sne $t2, $t0, $t1
+sw $t2, -196($sp)
+lw $t0, -196($sp)
+bnez $t0, func_main_20
+j func_main_21
+
+func_main_21:
+# load
+lw $t0, -32($sp)
+sw $sp, -200($t0)
+# gre
+lw $t0, -200($sp)
+li $t1, 1
+sgt $t2, $t0, $t1
+sw $t2, -204($sp)
+# ne
+lw $t0, -204($sp)
+li $t1, 0
+sne $t2, $t0, $t1
+sw $t2, -212($sp)
+lw $t0, -212($sp)
+bnez $t0, func_main_20
+j func_main_22
+
+func_main_20:
+li $t0, 2
+sw $t0, -4($sp)
+j func_main_22
+
+func_main_22:
+# load
+lw $t0, -32($sp)
+sw $sp, -220($t0)
+# add
+lw $t0, -220($sp)
+li $t1, 1
+add $t2, $t0, $t1
+sw $t2, -224($sp)
+# mul
+li $t0, 3
+li $t1, 3
+mul $t2, $t0, $t1
+sw $t2, -228($sp)
+# div
+lw $t0, -228($sp)
+li $t1, 0
+sdiv $t2, $t0, $t1
+sw $t2, -232($sp)
+# mod
+lw $t0, -232($sp)
+li $t1, 0
+srem $t2, $t0, $t1
+sw $t2, -236($sp)
+# sub
+lw $t0, -224($sp)
+lw $t1, -236($sp)
+sub $t2, $t0, $t1
+sw $t2, -240($sp)
+lw $t0, -240($sp)
+sw $t0, -32($sp)
+# add
+li $t0, 1
+li $t1, 1
+add $t2, $t0, $t1
+sw $t2, -244($sp)
+lw $t0, -244($sp)
+sw $t0, -32($sp)
+# sub
+li $t0, 0
+li $t1, 0
+sub $t2, $t0, $t1
+sw $t2, -248($sp)
+lw $t0, -248($sp)
+sw $t0, -32($sp)
+lw $v0, -252($sp)
+jr $ra
+
+

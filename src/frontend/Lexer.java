@@ -594,8 +594,7 @@ public class Lexer {
                 if(grammar.curNode instanceof FuncDef || grammar.curNode instanceof MainFuncDef || grammar.curNode instanceof FuncFParam)
                 {
                     if(c=='(') this.semantics.defineFunctionParameters();
-                    //else this.semantics.finishFunctionParameters();
-                    if(c==')') this.semantics.finishFunctionParameters();
+                    else this.semantics.finishFunctionParameters();
                 }
 
                 /*if(c=='(' && this.grammar.curNode instanceof MainFuncDef){
@@ -1550,7 +1549,10 @@ public class Lexer {
                     char error=this.semantics.processToken(token, lexType,this.lineNum);
                     if(error!='z') errors.add(Integer.toString(lineNum)+" "+Character.toString(error));
 
-                    if(this.source.charAt(curPos+1)!=')'){
+                    int curPos_test=curPos+1;
+                    while(curPos_test<len && Character.isWhitespace(source.charAt(curPos_test))) curPos_test++;
+                    if(curPos_test>=len || this.source.charAt(curPos_test)!=')')
+                    {
                         checkRightParentheses();
                         funcDef.hasFuncFParams=true;
                         FuncFParams funcFParams=new FuncFParams(this.grammar,this.lineNum,semantics.current_no);
@@ -1642,7 +1644,7 @@ public class Lexer {
                     }
                 }
                 if(lexType.equals(LexType.IDENFR) && this.grammar.curNode instanceof UnaryExp unaryExp){
-                    if(curPos<this.source.length() && this.source.charAt(curPos)!='('){
+                    if(curPos>=source.length()|| this.source.charAt(curPos)!='('){
                         // 一元表达式 UnaryExp -> PrimaryExp -> LVal -> Ident ['[' Exp ']']
                         PrimaryExp primaryExp=new PrimaryExp(this.grammar,this.lineNum,semantics.current_no);
                         unaryExp.next.add(primaryExp);primaryExp.pre=unaryExp;unaryExp.visited++;
@@ -1655,7 +1657,7 @@ public class Lexer {
 
                         lval.match(token,lexType);  // AST中创建并添加Ident结点
 
-                        if(this.source.charAt(curPos)!='['){
+                        if(curPos>=source.length()|| this.source.charAt(curPos)!='['){
                             // UnaryExp -> PrimaryExp -> LVal -> Ident, 返回至MulExp
                             lval.return_to_upper();
                         }

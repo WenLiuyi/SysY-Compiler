@@ -142,7 +142,6 @@ public class Analyzer {
         }
         if(!lexer.errors.isEmpty()){
             writer.write("error.txt",lexer.errors);
-            writer.write("symbol.ll",lexer.errors);
 
         }else {
             if(lexer.statements.isEmpty()) return;

@@ -281,7 +281,7 @@ public class Semantics {
 
     public void defineFunctionParameters(){
         if(this.last_symTab.redefined) return;
-        /*if(this.last_symTab!=null){
+        if(this.last_symTab!=null){
             if(this.defineInt){             //定义返回值为int型的函数
                 this.last_symTab.type=LexType.INT_FUN_IDENFR;
                 grammar.lexer.IntCharFunDefine=true;
@@ -291,12 +291,14 @@ public class Semantics {
             }else{                          //定义无返回值的函数
                 this.last_symTab.type=LexType.VOID_FUN_IDENFR;
             }
-        }*/
+        }
+
         //为函数创建新的符号表，通常层数为1，进入该作用域
         this.current_no=this.indexTable.createNewSymTable(++this.level,this.current_no,true,false);
         this.changeSymTable(this.current_no);
         //将该函数的symtab关联至：其函数参数符号表对应的索引项
         this.function_symTab.functionIndexTab=this.indexTable.indexTabList.get(current_no);
+
     }
     public void finishFunctionParameters(){
         if(this.last_symTab!=null){
@@ -313,6 +315,7 @@ public class Semantics {
     }
 
     public char processInt(int number){
+
         SymTable.SymTab symTab=this.last_symTab;
 
         //1.数组声明
@@ -345,6 +348,7 @@ public class Semantics {
         else{
 
         }
+
         if(this.referFunction>0) {       //当前数字为函数调用时传入的参数
             if (this.referred_function_symTab.arguNum >= this.function_symTab.functionIndexTab.ecount) {
                 //错误类型'd'：传入参数过多
@@ -378,7 +382,6 @@ public class Semantics {
         if(!defineChar && symTab.isConst && this.isAssign) {     //引用处对常量赋值，非法
             //return 'h';
         }
-        System.out.println(symTab.type);
         //1.给char变量赋值
         if(symTab.type==LexType.CHAR_VAR_IDENFR || this.last_symTab.type==LexType.CHAR_CONST_IDENFR){
             symTab.storeValue(c);

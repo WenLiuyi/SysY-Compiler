@@ -5,45 +5,50 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6c5911cd-3130-4587-9a00-faeb57544371" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/libsysy.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/libsysy.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/llvm/IR/Value/Inst/CondType.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/llvm/IR/Value/Inst/XOrInst.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/backend/Mips/Inst/MSBinary.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/backend/Mips/Inst/MSBranch.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/backend/Mips/Inst/MSInst.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/backend/Mips/Inst/MSLoad.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/backend/Mips/Inst/MSMove.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/backend/Mips/Inst/MSSelf.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/backend/Mips/Inst/MSStore.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/backend/Mips/MSBlock.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/backend/Mips/MSFunction.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/backend/Mips/MSGlobalValue.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/backend/Mips/MSModule.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/backend/Mips/MSValueType.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/backend/Mips/Operand/Imm.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/backend/Mips/Operand/MSLabel.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/backend/Mips/Operand/MSOperand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/backend/Mips/Operand/Pair.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/backend/Mips/Operand/PhyReg.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/backend/Mips/Operand/Reg.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/backend/Mips/Operand/VirReg.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/backend/Mips/RegAllocator.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/backend/Translator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/error.txt" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/llvm_ir.ll" beforeDir="false" afterPath="$PROJECT_DIR$/llvm_ir.ll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/llvm_ir.txt" beforeDir="false" afterPath="$PROJECT_DIR$/llvm_ir.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/main.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.ll" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Grammatical_Analysis/Compiler.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Grammatical_Analysis/Compiler.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Grammatical_Analysis/frontend.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Grammatical_Analysis/config.json" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Grammatical_Analysis/config.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Grammatical_Analysis/frontend/IndexTable.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Grammatical_Analysis/frontend/IndexTable.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Grammatical_Analysis/frontend/Lexer.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Grammatical_Analysis/frontend/Lexer.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Grammatical_Analysis/frontend/Tree/Exp/EqExp.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Grammatical_Analysis/frontend/Tree/Exp/EqExp.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Grammatical_Analysis/frontend/Tree/Exp/LVal.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Grammatical_Analysis/frontend/Tree/Exp/LVal.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Grammatical_Analysis/frontend/Tree/Exp/PrimaryExp.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Grammatical_Analysis/frontend/Tree/Exp/PrimaryExp.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Grammatical_Analysis/frontend/Tree/Exp/RelExp.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Grammatical_Analysis/frontend/Tree/Exp/RelExp.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Grammatical_Analysis/frontend/Tree/Stmt/Block.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Grammatical_Analysis/frontend/Tree/Stmt/Block.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Grammatical_Analysis/frontend/Tree/Stmt/Stmt.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Grammatical_Analysis/frontend/Tree/Stmt/Stmt.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Grammatical_Analysis/frontend/Semantics.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Grammatical_Analysis/frontend/Semantics.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out_ans.ll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out_res.ll" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/parser.txt" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Compiler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Compiler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/frontend.zip" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend.zip" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/Analyzer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/Analyzer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/IndexTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/IndexTable.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/frontend/Lexer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/Lexer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/frontend/Semantics.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/Semantics.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/frontend/Tree/Exp/EqExp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/Tree/Exp/EqExp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/frontend/Tree/Exp/LVal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/Tree/Exp/LVal.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/frontend/Tree/Exp/PrimaryExp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/Tree/Exp/PrimaryExp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/frontend/Tree/Exp/RelExp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/Tree/Exp/RelExp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/frontend/Tree/Stmt/Block.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/Tree/Stmt/Block.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/frontend/Tree/Stmt/Stmt.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/Tree/Stmt/Stmt.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/llvm/Generator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/llvm/Generator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/llvm/IR/SlotTracker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/llvm/IR/SlotTracker.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/llvm/IR/SymTableStack.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/llvm/IR/SymTableStack.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/llvm/IR/Value/BasicBlock.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/llvm/IR/Value/BasicBlock.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/llvm/IR/Value/Function.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/llvm/IR/Value/Function.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/llvm/IR/Value/Inst/BinaryOpType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/llvm/IR/Value/Inst/BinaryOpType.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/llvm/IR/Value/Value.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/llvm/IR/Value/Value.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/llvm/IR/Value/ValueType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/llvm/IR/Value/ValueType.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/llvm/Visitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/llvm/Visitor.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/symbol.ll" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/symbol.txt" beforeDir="false" afterPath="$PROJECT_DIR$/symbol.txt" afterDir="false" />
@@ -57,8 +62,9 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Class" />
+        <option value="Interface" />
         <option value="Enum" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -94,25 +100,25 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.Compiler.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/Public/Documents/Grammatical_Analysis&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.intentionPowerPack&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.Compiler.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "main",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/Public/Documents/Grammatical_Analysis",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "preferences.intentionPowerPack",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Public\Documents\Grammatical_Analysis" />
@@ -158,7 +164,11 @@
       <workItem from="1732509350375" duration="85147000" />
       <workItem from="1732683063295" duration="2797000" />
       <workItem from="1732950847473" duration="127450000" />
-      <workItem from="1733313479195" duration="142179000" />
+      <workItem from="1733313479195" duration="184889000" />
+      <workItem from="1733821371987" duration="49478000" />
+      <workItem from="1733984921846" duration="84726000" />
+      <workItem from="1734318894345" duration="46963000" />
+      <workItem from="1735280281670" duration="2278000" />
     </task>
     <servers />
   </component>
